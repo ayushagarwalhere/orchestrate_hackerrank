@@ -1,0 +1,22 @@
+{
+  "file_id": "evidence_60",
+  "model": "gemini-4-argon",
+  "prompt_version": "image_facts/v2",
+  "records": [
+    {
+      "category": "MARKETING_PROFILE",
+      "emails": [
+        "sj.park@naver.com"
+      ],
+      "labels": [],
+      "phones": [
+        "+82 10-5837-9451"
+      ],
+      "references": [],
+      "resource_id": "marketing_001",
+      "state": "PRESENT",
+      "user_ids": []
+    }
+  ],
+  "source_sha256": "51fa0e6a38f8fa3629ba1b0d0b90b4ed139715956b97bfd09a6f1a6232c15df5"
+}

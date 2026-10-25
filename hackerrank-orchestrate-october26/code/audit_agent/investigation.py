@@ -114,7 +114,7 @@ def request_authorizes(text: str) -> bool:
             raise AuditFailure(FailureType.UNRESOLVED, reason=FailureReason.INTENT)
     negative = bool(re.search(r"\b(?:do not|don't|not a request to) (?:delete|erase|close) (?:my |this |the )?(?:account|personal data|anything)\b", text))
     negative = negative or bool(re.search(
-        r"\bnot a request to (?:delete|erase)\b|\b(?:do not|don't) (?:delete|erase)(?: or change)? (?:it|anything)\b", text))
+        r"\bnot a request to (?:delete|erase)\b|\b(?:not asking for|not a request for) deletion\b|\b(?:do not|don't) (?:delete|erase)(?: or change)? (?:it|anything)\b", text))
     full_object = r"(?:account|personal[- ]data|personal information)"
     affirmative = any(
         not re.search(r"\b(?:not|don't|never)\b", clause) and

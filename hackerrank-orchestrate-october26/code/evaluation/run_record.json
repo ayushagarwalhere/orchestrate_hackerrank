@@ -1,0 +1,290 @@
+{
+  "rows": 518,
+  "statuses": {
+    "INCOMPLETE": 354,
+    "COMPLETE": 154,
+    "NOT_APPLICABLE": 10
+  },
+  "output_sha256": "e2055a0589327e563eb2cfddac20eeef1a4694c2b06a956ff1f94bc2dcfd92bc",
+  "sample_status": 1.0,
+  "sample_exact": 0.90625,
+  "changed_cases": [
+    {
+      "case_id": "case_45",
+      "before": [
+        "COMPLETE",
+        [
+          {
+            "evidence_id": "",
+            "operation": "VERIFY_RECORD_ABSENT",
+            "phase": "VERIFICATION",
+            "resource_id": "account_003",
+            "state": "ABSENT",
+            "step_no": 1,
+            "system_id": "account_service"
+          },
+          {
+            "evidence_id": "evidence_37",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_001",
+            "state": "PRESENT",
+            "step_no": 2,
+            "system_id": "security_service"
+          },
+          {
+            "evidence_id": "evidence_37",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_002",
+            "state": "PRESENT",
+            "step_no": 3,
+            "system_id": "security_service"
+          },
+          {
+            "evidence_id": "evidence_37",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_003",
+            "state": "PRESENT",
+            "step_no": 4,
+            "system_id": "security_service"
+          },
+          {
+            "evidence_id": "evidence_37",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_004",
+            "state": "PRESENT",
+            "step_no": 5,
+            "system_id": "security_service"
+          },
+          {
+            "evidence_id": "evidence_37",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_005",
+            "state": "PRESENT",
+            "step_no": 6,
+            "system_id": "security_service"
+          },
+          {
+            "evidence_id": "evidence_37",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_006",
+            "state": "PRESENT",
+            "step_no": 7,
+            "system_id": "security_service"
+          }
+        ]
+      ],
+      "after": [
+        "COMPLETE",
+        [
+          {
+            "evidence_id": "evidence_54",
+            "operation": "VERIFY_RECORD_ABSENT",
+            "phase": "VERIFICATION",
+            "resource_id": "account_003",
+            "state": "ABSENT",
+            "step_no": 1,
+            "system_id": "account_service"
+          },
+          {
+            "evidence_id": "evidence_37",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_001",
+            "state": "PRESENT",
+            "step_no": 2,
+            "system_id": "security_service"
+          },
+          {
+            "evidence_id": "evidence_37",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_002",
+            "state": "PRESENT",
+            "step_no": 3,
+            "system_id": "security_service"
+          },
+          {
+            "evidence_id": "evidence_37",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_003",
+            "state": "PRESENT",
+            "step_no": 4,
+            "system_id": "security_service"
+          },
+          {
+            "evidence_id": "evidence_37",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_004",
+            "state": "PRESENT",
+            "step_no": 5,
+            "system_id": "security_service"
+          },
+          {
+            "evidence_id": "evidence_37",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_005",
+            "state": "PRESENT",
+            "step_no": 6,
+            "system_id": "security_service"
+          },
+          {
+            "evidence_id": "evidence_37",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_006",
+            "state": "PRESENT",
+            "step_no": 7,
+            "system_id": "security_service"
+          }
+        ]
+      ]
+    },
+    {
+      "case_id": "case_126",
+      "before": [
+        "COMPLETE",
+        [
+          {
+            "evidence_id": "",
+            "operation": "VERIFY_RECORD_ABSENT",
+            "phase": "VERIFICATION",
+            "resource_id": "account_8819",
+            "state": "ABSENT",
+            "step_no": 1,
+            "system_id": "account_service"
+          },
+          {
+            "evidence_id": "evidence_87",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_6884",
+            "state": "PRESENT",
+            "step_no": 2,
+            "system_id": "security_service"
+          },
+          {
+            "evidence_id": "evidence_87",
+            "operation": "VERIFY_RECORD_ANONYMIZED",
+            "phase": "VERIFICATION",
+            "resource_id": "analytics_1402",
+            "state": "ANONYMIZED",
+            "step_no": 3,
+            "system_id": "analytics_platform"
+          }
+        ]
+      ],
+      "after": [
+        "COMPLETE",
+        [
+          {
+            "evidence_id": "evidence_15",
+            "operation": "VERIFY_RECORD_ABSENT",
+            "phase": "VERIFICATION",
+            "resource_id": "account_8819",
+            "state": "ABSENT",
+            "step_no": 1,
+            "system_id": "account_service"
+          },
+          {
+            "evidence_id": "evidence_87",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_6884",
+            "state": "PRESENT",
+            "step_no": 2,
+            "system_id": "security_service"
+          },
+          {
+            "evidence_id": "evidence_87",
+            "operation": "VERIFY_RECORD_ANONYMIZED",
+            "phase": "VERIFICATION",
+            "resource_id": "analytics_1402",
+            "state": "ANONYMIZED",
+            "step_no": 3,
+            "system_id": "analytics_platform"
+          }
+        ]
+      ]
+    },
+    {
+      "case_id": "case_127",
+      "before": [
+        "COMPLETE",
+        [
+          {
+            "evidence_id": "",
+            "operation": "VERIFY_RECORD_ABSENT",
+            "phase": "VERIFICATION",
+            "resource_id": "account_6805",
+            "state": "ABSENT",
+            "step_no": 1,
+            "system_id": "account_service"
+          },
+          {
+            "evidence_id": "evidence_87",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_9649",
+            "state": "PRESENT",
+            "step_no": 2,
+            "system_id": "security_service"
+          },
+          {
+            "evidence_id": "evidence_87",
+            "operation": "VERIFY_RECORD_ANONYMIZED",
+            "phase": "VERIFICATION",
+            "resource_id": "analytics_7150",
+            "state": "ANONYMIZED",
+            "step_no": 3,
+            "system_id": "analytics_platform"
+          }
+        ]
+      ],
+      "after": [
+        "COMPLETE",
+        [
+          {
+            "evidence_id": "evidence_15",
+            "operation": "VERIFY_RECORD_ABSENT",
+            "phase": "VERIFICATION",
+            "resource_id": "account_6805",
+            "state": "ABSENT",
+            "step_no": 1,
+            "system_id": "account_service"
+          },
+          {
+            "evidence_id": "evidence_87",
+            "operation": "VERIFY_RECORD_PRESENT",
+            "phase": "VERIFICATION",
+            "resource_id": "audit_record_9649",
+            "state": "PRESENT",
+            "step_no": 2,
+            "system_id": "security_service"
+          },
+          {
+            "evidence_id": "evidence_87",
+            "operation": "VERIFY_RECORD_ANONYMIZED",
+            "phase": "VERIFICATION",
+            "resource_id": "analytics_7150",
+            "state": "ANONYMIZED",
+            "step_no": 3,
+            "system_id": "analytics_platform"
+          }
+        ]
+      ]
+    }
+  ],
+  "live_model_calls": 0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "elapsed_seconds": 4.210729599988554
+}

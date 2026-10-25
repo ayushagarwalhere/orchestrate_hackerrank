@@ -1,3 +1,5 @@
+> This document describes the preserved independent profile (`code/proof_main.py`, package `audit_agent`). The default CLI is documented in ARCHITECTURE.md and README.md.
+
 # Constrained model execution
 
 Implemented 25 October 2026. Models are optional and admitted for exactly two purposes: PNG screenshot fact transcription and interpretation of request text that the deterministic intent grammar cannot resolve. SQL, logs, JSON records and PDF documents never fall back to a model. Final deletion status, identity/resource admission, citations, policy operations, ordering, validation and publication remain code decisions.

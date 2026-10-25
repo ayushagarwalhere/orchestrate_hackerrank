@@ -26,7 +26,7 @@ def sha(data: bytes) -> str:
 def source_bytes():
     code = Path(__file__).resolve().parents[1]
     return {str(path.relative_to(code)).replace("\\", "/"): path.read_bytes()
-            for path in sorted([code / "main.py", *(code / "audit_agent").glob("*.py"),
+            for path in sorted([code / "main.py", code / "proof_main.py", *(code / "audit_agent").glob("*.py"),
                                 *(code / "audit_agent").glob("*.ps1"), *(code / "prompts").glob("*.md")])}
 
 

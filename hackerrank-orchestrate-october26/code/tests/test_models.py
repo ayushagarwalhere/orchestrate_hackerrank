@@ -432,7 +432,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(offline.summary()["cache_hits"], 1)
 
     def test_cli_requires_explicit_profile_and_live_client_configuration(self):
-        config = fixture(self.root); cli = Path(__file__).resolve().parents[1] / "main.py"
+        config = fixture(self.root); cli = Path(__file__).resolve().parents[1] / "proof_main.py"
         result = subprocess.run([sys.executable, "-B", str(cli), "--dataset", str(config.dataset),
             "--output", str(config.output), "--telemetry", str(self.root / "telemetry.jsonl"),
             "--expected-cases", "3", "--allow-live"], capture_output=True, text=True)
@@ -442,7 +442,7 @@ class ModelTests(unittest.TestCase):
 
     def test_cli_live_fake_client_then_cache_only_replay(self):
         config, _, _, _ = self.screenshot_fixture()
-        cli = Path(__file__).resolve().parents[1] / "main.py"
+        cli = Path(__file__).resolve().parents[1] / "proof_main.py"
         command = [sys.executable, "-B", str(cli), "--dataset", str(config.dataset), "--output", str(config.output),
             "--telemetry", str(self.root / "telemetry.jsonl"), "--expected-cases", "3",
             "--inference-provider", "fake", "--inference-model", "test-model", "--model-cache", str(self.root / "cache")]
@@ -459,7 +459,7 @@ class ModelTests(unittest.TestCase):
 
     def test_cli_client_presence_does_not_enable_live_calls(self):
         config, _, _, _ = self.screenshot_fixture()
-        cli = Path(__file__).resolve().parents[1] / "main.py"
+        cli = Path(__file__).resolve().parents[1] / "proof_main.py"
         result = subprocess.run([sys.executable, "-B", str(cli), "--dataset", str(config.dataset),
             "--output", str(config.output), "--telemetry", str(self.root / "telemetry.jsonl"), "--expected-cases", "3",
             "--inference-provider", "fake", "--inference-model", "test-model", "--model-cache", str(self.root / "cache"),

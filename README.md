@@ -6,12 +6,12 @@ HackerRank / InterviewStreet supplied the challenge and participant dataset; att
 ```powershell
 cd hackerrank-orchestrate-october26
 python -m pip install -r requirements.txt
-python -B code/evaluation/main.py
-python -B code/evaluation/sample_eval.py predict --run runs/my-sample-run
-python -B code/evaluation/sample_eval.py compare --run runs/my-sample-run --report runs/my-sample-run/report.md
+python -B code/main.py --no-llm
+python -B code/validate_output.py
+python -B code/evaluation/score.py
 ```
 
-Use a new run directory for every prediction freeze. Public references are opened only by the separate comparison command. Target requests can be diagnosed with `predict --requests-file deletion_requests.csv --expected-cases 518`; these are not scored against public answers. The normal CLI (`python -B code/main.py`) publishes only after every request succeeds and validates. Partial diagnostic predictions are not a submission.
+The default CLI uses the authorized derivative that previously achieved 32/32 public statuses and 29/32 exact cases. The independent, more conservative coordinator remains available through `code/proof_main.py`; its diagnostic evaluator is `code/evaluation/sample_eval.py`. Public references are read only during evaluation, not prediction. Attribution and limitations are documented in the project's `code/UPSTREAM.md` and architecture/evaluation reports.
 
 The original upload recorded the project directory as a Git link to the starter commit, omitting the local implementation. The repository repair tracks the actual project files without deleting the local nested Git checkout. `.implementation/` contains historical staging files and is not used by the executable implementation.
 

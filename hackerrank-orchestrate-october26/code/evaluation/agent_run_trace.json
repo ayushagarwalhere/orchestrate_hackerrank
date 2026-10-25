@@ -1,0 +1,95 @@
+{
+  "mode": "offline",
+  "events": [
+    {
+      "tool": "load_inputs",
+      "effects": [
+        "read_dataset"
+      ],
+      "outcome": "ok",
+      "duration_seconds": 0.008325,
+      "error_type": null
+    },
+    {
+      "tool": "extract_facts",
+      "effects": [
+        "read_dataset",
+        "write_derived_cache",
+        "model_api_if_enabled"
+      ],
+      "outcome": "ok",
+      "duration_seconds": 3e-06,
+      "error_type": null
+    },
+    {
+      "tool": "index_evidence",
+      "effects": [
+        "read_dataset",
+        "read_derived_cache"
+      ],
+      "outcome": "ok",
+      "duration_seconds": 0.795785,
+      "error_type": null
+    },
+    {
+      "tool": "investigate",
+      "effects": [
+        "read_dataset",
+        "write_derived_cache_if_enabled",
+        "model_api_if_enabled"
+      ],
+      "outcome": "ok",
+      "duration_seconds": 0.704564,
+      "error_type": null
+    },
+    {
+      "tool": "compile_plan",
+      "effects": [
+        "pure_computation"
+      ],
+      "outcome": "ok",
+      "duration_seconds": 0.012887,
+      "error_type": null
+    },
+    {
+      "tool": "validate",
+      "effects": [
+        "read_dataset",
+        "read_candidate"
+      ],
+      "outcome": "ok",
+      "duration_seconds": 0.051166,
+      "error_type": null
+    },
+    {
+      "tool": "publish",
+      "effects": [
+        "write_output",
+        "write_backup"
+      ],
+      "outcome": "ok",
+      "duration_seconds": 0.005063,
+      "error_type": null
+    }
+  ],
+  "counts": {
+    "targets": 518,
+    "requests": 550,
+    "observations": 3101,
+    "coverages": 14,
+    "activities": 4011,
+    "unknown_resource_states": 137,
+    "validated_rows": 518,
+    "status_INCOMPLETE": 354,
+    "status_COMPLETE": 154,
+    "status_NOT_APPLICABLE": 10
+  },
+  "output_sha256": "e2055a0589327e563eb2cfddac20eeef1a4694c2b06a956ff1f94bc2dcfd92bc",
+  "published": true,
+  "assumptions": [
+    "Inherited workflow timing and numeric case-order tie breaks",
+    "Inherited account naming fallback and retrospective ownership membership",
+    "Inherited authoritative coverage and persistent account-absence interpretation",
+    "Inherited unknown-field defaults remain a policy interpretation limitation"
+  ]
+}

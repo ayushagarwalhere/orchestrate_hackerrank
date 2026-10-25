@@ -322,7 +322,7 @@ class WorkflowTests(unittest.TestCase):
 
     def test_cli_runs_real_coordinator_success_and_failure(self):
         config = fixture(self.root)
-        cli = Path(__file__).resolve().parents[1] / "main.py"
+        cli = Path(__file__).resolve().parents[1] / "proof_main.py"
         command = [sys.executable, "-B", str(cli), "--dataset", str(config.dataset), "--output", str(config.output),
                    "--telemetry", str(self.root / "telemetry.jsonl"), "--expected-cases", "3"]
         result = subprocess.run(command, capture_output=True, text=True)
@@ -338,7 +338,7 @@ class WorkflowTests(unittest.TestCase):
 
     def test_cli_rejects_retired_unrestricted_extractor(self):
         config = fixture(self.root, extra_artifact=True)
-        cli = Path(__file__).resolve().parents[1] / "main.py"
+        cli = Path(__file__).resolve().parents[1] / "proof_main.py"
         log = self.root / "telemetry.jsonl"
         result = subprocess.run([sys.executable, "-B", str(cli), "--dataset", str(config.dataset),
                                  "--output", str(config.output), "--telemetry", str(log),

@@ -1,0 +1,34 @@
+{
+  "file_id": "evidence_09",
+  "model": "gemini-4-argon",
+  "prompt_version": "image_facts/v2",
+  "records": [
+    {
+      "category": "SEARCH_INDEX_ENTRY",
+      "emails": [
+        "g.silva76@gmail.com"
+      ],
+      "labels": [],
+      "phones": [],
+      "references": [],
+      "resource_id": "search_428",
+      "state": "PRESENT",
+      "user_ids": [
+        "user_13"
+      ]
+    },
+    {
+      "category": "SEARCH_INDEX_ENTRY",
+      "emails": [
+        "g.silva76.jr@gmail.com"
+      ],
+      "labels": [],
+      "phones": [],
+      "references": [],
+      "resource_id": "search_1874",
+      "state": "PRESENT",
+      "user_ids": []
+    }
+  ],
+  "source_sha256": "75afdb0ae53a4510c83399a70d88073cb4fb2747454095756e4ddad1a8c70605"
+}

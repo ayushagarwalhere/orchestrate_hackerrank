@@ -1,0 +1,11 @@
+{
+  "default_profile": {
+    "passed": 247,
+    "seconds": 61.65
+  },
+  "independent_profile": {
+    "passed": 124,
+    "seconds": 42.861
+  },
+  "timing_thresholds_unchanged": true
+}

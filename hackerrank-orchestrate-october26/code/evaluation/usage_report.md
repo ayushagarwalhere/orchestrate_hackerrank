@@ -1,28 +1,25 @@
-# Inference usage status — 25 October 2026
+# Current reproduction usage
 
-No final full-dataset run producing root output.csv has completed. This report separates unsuccessful historical smoke testing, current public-sample diagnostics and fake-client tests from a future final submission run.
+The final default CLI generated all 518 validated rows in offline mode. New provider/model invocations: **0**; new input/output tokens: **0 / 0**; new hosted cost: **$0**, averaging **0 tokens and $0 per target request**. No provider/model was invoked in this reproduction. Historical screenshot facts retain their recorded model, prompt and extraction provenance; this does not claim that their original creation cost was zero. Local OCR/CPU and development-assistant usage are outside these provider totals and were not metered here.
 
-## Current public-sample inference
+Output SHA-256: e2055a0589327e563eb2cfddac20eeef1a4694c2b06a956ff1f94bc2dcfd92bc. Test clients use synthetic usage and are not real provider charges. The preserved independent profile's partial diagnostic CSV is not this final default output.
 
-The frozen final sample run has 32 requests, six produced diagnostic rows and 26 failures. All 94 supplied artifacts passed the format parsers; semantic/policy coverage remains incomplete. JSON, logs and bounded in-memory SQL use deterministic parsing; PDF text uses pypdf and PNG text uses local Windows WinRT OCR. No model provider was configured, and no provider credentials or hosted inference were used.
+## Historical usage record from the transferred profile
 
-| Provider/model | Adapter/model calls | Input tokens | Output tokens | Total tokens | Average tokens per sample request | Inference charges |
-|---|---:|---:|---:|---:|---:|---:|
-| None configured | 0 / 0 | 0 | 0 | 0 | 0/32 = 0 | 0 hosted inference charges |
-| Overall | 0 / 0 | 0 | 0 | 0 | 0 | 0 hosted inference charges |
+# Usage report — current candidate
 
-Historical cache creation calls/tokens/cost are zero for these model-free sample runs; no cache was reused or relabeled. Local OCR/CPU consumption and development-assistant usage are not included in provider token/cost totals. Those development costs have not been measured by this runtime. Sample prediction CSV SHA-256: `f97f6e6d396271e1e955e874f81c1fd808559892bb348a925922ae3ab4b0b574`. This partial diagnostic artifact is not a final submission.
+This report covers the full run producing 518-row output.csv with SHA-256 `e2055a0589327e563eb2cfddac20eeef1a4694c2b06a956ff1f94bc2dcfd92bc`.
 
-## Earlier full-dataset smoke and tests
+| Runtime provider/model | Calls | Input tokens | Output tokens | Total | Per request | API cost |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| None invoked: offline replay | 0 | 0 | 0 | 0 | 0 | USD 0 |
+| Total current runtime | 0 | 0 | 0 | 0 | 0 | USD 0 |
 
-The earlier coordinator smoke loaded all 518 requests and stopped on unsupported extraction before indexing/publication; it made zero hosted calls and sent zero input/output tokens. Native adapters now replace that format-level blocker, but no completed 518-row output or final-run average/cost exists.
+Live inference requires explicit --live-llm; this run used --no-llm. Model extraction was performed previously by the upstream author and is reused with permission. Imported cache counters below are author-recorded historical generation usage, not new calls or tokens spent during this run.
 
-All 103 tests pass. Model/cache tests use fake clients; fake usage values test metering behavior and are not real inference charges. CLI fake-client tests include cache replay. The `external_calls` compatibility counter measures extraction adapter invocations, not billing; actual model accounting is in `inference_usage`.
+| Cached provider/model/task | Recorded calls | Recorded input | Recorded output | Recorded total |
+| --- | ---: | ---: | ---: | ---: |
+| google / gemini-4-argon / image_facts | 11 | 22576 | 3943 | 26519 |
 
-## Runtime accounting and final-run requirements
-
-`ModelRuntime` records invocation counts, attempted calls and retries, actual reported input/output tokens, optional provider-reported micro-USD cost and completeness flags. It meters reported usage before response validation. Missing usage and timeouts are explicitly unmetered with unknown cost, never assumed free. Provider/model mismatches mark attribution incomplete. Drivers must disable internal retries/batching and perform one provider request per attempt.
-
-Validated cache hits consume no new provider calls/tokens and preserve original prompt/model/source/creation provenance and historical usage separately. Version/hash changes create new keys; no older cache is overwritten or relabeled. Aggregate usage is attached to run summaries without customer text or credentials. See [../MODEL_EXECUTION.md](../MODEL_EXECUTION.md).
-
-Before submission, record the actual final run's provider/model names, calls including preprocessing/retries, input/output/total tokens, overall and per-model totals, averages over all 518 requests, cache usage, dated pricing/cost basis, total and per-request cost, and final input/output digests. No successful final run is claimed by replacing those measurements with sample or fake-client totals.
+All eleven image-fact files are bound to source SHA-256. Changed source images fail validation rather than silently reusing stale facts. No copied prediction CSV was used to produce the candidate. Historical extraction cost is not independently verified; the author's earlier price assumptions are not represented as current official rates. This replay has zero marginal API cost; it does not mean development was free.
+Local development harness/provider: OpenAI Codex Desktop, runtime gpt-6.1-sol. Development tokens/cost are not separately available and are not fabricated.

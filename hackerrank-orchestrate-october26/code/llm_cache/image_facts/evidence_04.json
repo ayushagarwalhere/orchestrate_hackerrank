@@ -1,0 +1,30 @@
+{
+  "file_id": "evidence_04",
+  "model": "gemini-4-argon",
+  "prompt_version": "image_facts/v2",
+  "records": [
+    {
+      "category": "USER_PROFILE",
+      "emails": [
+        "haruka.s1838@zoho.com"
+      ],
+      "labels": [
+        "ORD-20265762",
+        "ORD-20265518",
+        "CS-8538"
+      ],
+      "phones": [
+        "+81 90 7610 2507"
+      ],
+      "references": [
+        "support_9538"
+      ],
+      "resource_id": "account_5762",
+      "state": "PRESENT",
+      "user_ids": [
+        "user_11"
+      ]
+    }
+  ],
+  "source_sha256": "d5c32ca5b6e1a2b4bbe9f5d41835ef1fd5d4f7061dab9067a4f9f88cea3c1861"
+}

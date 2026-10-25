@@ -1,3 +1,5 @@
+> This document describes the preserved independent profile (`code/proof_main.py`, package `audit_agent`). The default CLI is documented in ARCHITECTURE.md and README.md.
+
 # Explicit evidence reasoning and refactor limits
 
 Implemented 25 October 2026. The original HackerRank / InterviewStreet source attribution in [ARCHITECTURE.md](ARCHITECTURE.md) remains applicable. No supplied dataset or policy was edited.

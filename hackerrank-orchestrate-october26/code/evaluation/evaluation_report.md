@@ -1,83 +1,115 @@
-# Evaluation report — 25 October 2026
+# Current verification in orchestrate_hackerrank
 
-The current public-sample result is **6/32 status correct (18.75%)** and **1/32 full-case exact (3.12%)**, with 26 execution failures counted as incorrect. All 32 requests are compared; no failures are omitted from the denominators. The earlier 11/32 status result regressed after removing unsupported policy witnesses and incomplete media coverage. This is an interim engineering result, not a completed challenge submission.
+The intended folder now reproduces **32/32 public statuses and 29/32 full-case exact predictions** using the same authorized approach requested by the user. The actual default CLI validates and publishes all 518 rows. Its CSV is byte-identical to the previous high-scoring profile (SHA-256 e2055a0589327e563eb2cfddac20eeef1a4694c2b06a956ff1f94bc2dcfd92bc): zero changed predictions across all 518 requests.
 
-## Public metrics
+Fresh integration checks: **247 default-profile tests pass in 61.65 seconds; all 124 independent-profile tests pass in 42.861 seconds**. An earlier independent timing test exceeded its wall-clock threshold during host contention; the final full suite passed with the threshold unchanged. The CLI trace records exactly one index construction. There were no new hosted inference calls.
 
-| Metric | Result |
-|---|---:|
-| Prediction coverage | 6/32 |
-| Status accuracy | 6/32 (18.75%) |
-| Full-case exact accuracy | 1/32 (3.12%) |
-| Exact ordered arrays | 1/32 (3.12%) |
-| Exact seven-field step precision | 17/23 (73.91%) |
-| Exact seven-field step recall | 17/193 (8.81%) |
-| Field accuracy, missing steps scored zero | 155/1,351 (11.47%) |
-| Missing / extra steps across all cases | 170 / 0 |
+Status accuracy and full-case exact accuracy are separate. The same three exact mismatches remain; no hidden-score improvement, supported ownership for the ambiguous account, or missing security association is claimed. [repository_migration.md](repository_migration.md) explains the profile choice, original attribution, executable entry points, output hashes and inherited assumptions. The independent coordinator remains available as proof_main.py; its partial diagnostic runs must not be confused with the default output.
 
-Field alignment diagnoses errors without changing predictions. Exact step/array metrics include numbering, citations and array order; JSON object-key order is irrelevant. Conditional on the six produced cases, statuses are 6/6 and full cases 1/6, but these are not all-case accuracy.
+## Historical evaluation record transferred with the authorized profile
 
-Predictions were frozen before the separate comparison command opened public answers. Earlier conversation work inspected public examples, so this is **not blind evaluation**. Production code does not import references, expected arrays or case-specific corrections. See [iteration_report.md](iteration_report.md) for root causes, measured iteration, regressions, assumptions and exact metric definitions; [prediction_changes.md](prediction_changes.md) explains every changed prediction. [sample_final.md](sample_final.md) lists full missing/extra steps and resource/evidence/operation/state/number/order differences for every non-exact case.
+The following is the previous checkout's report, preserved as historical context. Its old test counts and archive paths are not new measurements in this repository.
 
-## All 32 public cases
+# Local evaluation — authorized derivative
 
-| Case | Predicted | Reference | Status correct | Full case exact | First failure / deltas |
-|---|---|---|---|---|---|
-| case_01 | NO PREDICTION | COMPLETE | False | False | investigate:missing_ownership |
-| case_02 | NO PREDICTION | COMPLETE | False | False | investigate:request_intent |
-| case_03 | COMPLETE | COMPLETE | True | False | missing=1, extra=0, fields=0, order=False |
-| case_04 | NO PREDICTION | COMPLETE | False | False | investigate:missing_ownership |
-| case_05 | INCOMPLETE | INCOMPLETE | True | True | missing=0, extra=0, fields=0, order=False |
-| case_06 | INCOMPLETE | INCOMPLETE | True | False | missing=1, extra=0, fields=1, order=False |
-| case_07 | NO PREDICTION | INCOMPLETE | False | False | investigate:missing_state |
-| case_08 | NO PREDICTION | INCOMPLETE | False | False | investigate:request_intent |
-| case_09 | INCOMPLETE | INCOMPLETE | True | False | missing=2, extra=0, fields=1, order=False |
-| case_10 | NO PREDICTION | INCOMPLETE | False | False | investigate:request_intent |
-| case_11 | NO PREDICTION | INCOMPLETE | False | False | compile_plan:policy_unresolved |
-| case_12 | NO PREDICTION | INCOMPLETE | False | False | investigate:request_intent |
-| case_13 | NO PREDICTION | INCOMPLETE | False | False | compile_plan:policy_unresolved |
-| case_14 | NO PREDICTION | INCOMPLETE | False | False | compile_plan:policy_unresolved |
-| case_15 | NO PREDICTION | INCOMPLETE | False | False | investigate:unrepresented_evidence |
-| case_16 | NO PREDICTION | INCOMPLETE | False | False | compile_plan:policy_unresolved |
-| case_17 | NO PREDICTION | INCOMPLETE | False | False | investigate:unrepresented_evidence |
-| case_18 | NO PREDICTION | INCOMPLETE | False | False | compile_plan:policy_unresolved |
-| case_19 | NO PREDICTION | INCOMPLETE | False | False | investigate:request_intent |
-| case_20 | INCOMPLETE | INCOMPLETE | True | False | missing=2, extra=0, fields=2, order=False |
-| case_21 | NO PREDICTION | COMPLETE | False | False | investigate:unrepresented_evidence |
-| case_22 | NO PREDICTION | INCOMPLETE | False | False | compile_plan:policy_unresolved |
-| case_23 | INCOMPLETE | INCOMPLETE | True | False | missing=2, extra=0, fields=2, order=False |
-| case_24 | NO PREDICTION | INCOMPLETE | False | False | investigate:unrepresented_evidence |
-| case_25 | NO PREDICTION | COMPLETE | False | False | investigate:request_intent |
-| case_26 | NO PREDICTION | COMPLETE | False | False | investigate:request_intent |
-| case_27 | NO PREDICTION | COMPLETE | False | False | investigate:request_intent |
-| case_28 | NO PREDICTION | COMPLETE | False | False | compile_plan:policy_unresolved |
-| case_29 | NO PREDICTION | INCOMPLETE | False | False | investigate:request_intent |
-| case_30 | NO PREDICTION | INCOMPLETE | False | False | compile_plan:policy_unresolved |
-| case_31 | NO PREDICTION | COMPLETE | False | False | investigate:request_intent |
-| case_32 | NO PREDICTION | INCOMPLETE | False | False | compile_plan:policy_unresolved |
+Adapted with author permission from rsrsp21 commit 0c573f824adb5b4c0aef36a525d5dc424dc9f97d. Original design/tests/extraction are credited in UPSTREAM.md; local work is in CHANGES.md. The user confirms the unchanged baseline earned 28.2/30. The modified candidate has not been graded; no higher score is claimed.
 
-## Independent participant-created evaluation cases
+Produced 518 rows with statuses {'INCOMPLETE': 354, 'COMPLETE': 154, 'NOT_APPLICABLE': 10}. Output SHA-256: `e2055a0589327e563eb2cfddac20eeef1a4694c2b06a956ff1f94bc2dcfd92bc`. Generation and local evaluation took 4.211s; zero live model calls.
 
-These three hand-authored synthetic cases in `tests/test_workflow.py` compare independent expected arrays, not compiler-generated expectations. They include the status absent from the public samples.
+## Public sample evaluation
 
-| Case | Input evidence and request | Expected result |
-|---|---|---|
-| A | Explicit deletion; reported complete; profile present; copying flow active; security record in retention | INCOMPLETE; report profile and flow, disable flow before deleting profile, verify absent profile, present security record and disabled flow. |
-| B | Explicit deletion; reported not started; eligible lookup says profile absent | COMPLETE; evidence-backed absence check. |
-| C | Export request with explicit do-not-delete negation | NOT_APPLICABLE; empty array. |
+All predictions precede reference access. Whole-array equality includes step numbers, operations, IDs, states, evidence and order. Status accuracy is separate.
 
-Fixture status accuracy is 3/3, exact steps 8/8, fields 56/56, and exact arrays 3/3. These test wiring and invariants, not hidden accuracy. CSV SHA-256 remains `7f9d5079d7299856e9c7ea89de1c9721bbe8148da35955c1451a42d3a010e315`.
+```text
+=== public samples: 32 cases
+status accuracy   1.0000
+step precision    0.9948  recall 0.9845  F1 0.9896  (191 predicted / 193 expected)
+sequence exact    0.9062
+field accuracy    step_no=0.9896  phase=0.9896  system_id=0.9689  resource_id=0.9637  operation=0.9689  state=0.9689  evidence_id=0.9896
+  case_18: status INCOMPLETE (expected INCOMPLETE)
+      - missing ('VERIFICATION', 'security_service', 'audit_record_6645', 'VERIFY_RECORD_PRESENT', 'PRESENT', '')
+  case_20: status INCOMPLETE (expected INCOMPLETE)
+      - missing ('VERIFICATION', 'security_service', 'audit_record_5569', 'VERIFY_RECORD_PRESENT', 'PRESENT', '')
+  case_23: status INCOMPLETE (expected INCOMPLETE)
+      - missing ('VERIFICATION', 'account_service', 'account_410', 'VERIFY_RECORD_ABSENT', 'ABSENT', '')
+      + extra   ('VERIFICATION', 'account_service', 'account_7015', 'VERIFY_RECORD_ABSENT', 'ABSENT', '')
+```
 
-## Validation and fixes
+## All 32 sample cases
 
-`python -B code/evaluation/main.py` runs all 103 tests: 31 coordinator, 17 explicit evidence, 37 model/cache and 18 measured-iteration tests. All pass. Tests use synthetic subjects and fake model clients; none makes hosted inference calls. They exercise actual CLI/coordinator wiring, a single reused immutable index, safe publication, telemetry privacy, source/ownership/state separation, historical identifiers, physical/table scope, model budgets/cache provenance and malformed-response failure paths.
+| Case | Expected status | Predicted status | Expected steps | Predicted steps | Full case exact | Missing | Extra |
+| --- | --- | --- | ---: | ---: | --- | ---: | ---: |
+| case_01 | COMPLETE | COMPLETE | 1 | 1 | yes | 0 | 0 |
+| case_02 | COMPLETE | COMPLETE | 1 | 1 | yes | 0 | 0 |
+| case_03 | COMPLETE | COMPLETE | 3 | 3 | yes | 0 | 0 |
+| case_04 | COMPLETE | COMPLETE | 2 | 2 | yes | 0 | 0 |
+| case_05 | INCOMPLETE | INCOMPLETE | 3 | 3 | yes | 0 | 0 |
+| case_06 | INCOMPLETE | INCOMPLETE | 4 | 4 | yes | 0 | 0 |
+| case_07 | INCOMPLETE | INCOMPLETE | 4 | 4 | yes | 0 | 0 |
+| case_08 | INCOMPLETE | INCOMPLETE | 4 | 4 | yes | 0 | 0 |
+| case_09 | INCOMPLETE | INCOMPLETE | 5 | 5 | yes | 0 | 0 |
+| case_10 | INCOMPLETE | INCOMPLETE | 4 | 4 | yes | 0 | 0 |
+| case_11 | INCOMPLETE | INCOMPLETE | 14 | 14 | yes | 0 | 0 |
+| case_12 | INCOMPLETE | INCOMPLETE | 5 | 5 | yes | 0 | 0 |
+| case_13 | INCOMPLETE | INCOMPLETE | 8 | 8 | yes | 0 | 0 |
+| case_14 | INCOMPLETE | INCOMPLETE | 5 | 5 | yes | 0 | 0 |
+| case_15 | INCOMPLETE | INCOMPLETE | 5 | 5 | yes | 0 | 0 |
+| case_16 | INCOMPLETE | INCOMPLETE | 7 | 7 | yes | 0 | 0 |
+| case_17 | INCOMPLETE | INCOMPLETE | 5 | 5 | yes | 0 | 0 |
+| case_18 | INCOMPLETE | INCOMPLETE | 14 | 13 | no | 1 | 0 |
+| case_19 | INCOMPLETE | INCOMPLETE | 8 | 8 | yes | 0 | 0 |
+| case_20 | INCOMPLETE | INCOMPLETE | 8 | 7 | no | 1 | 0 |
+| case_21 | COMPLETE | COMPLETE | 3 | 3 | yes | 0 | 0 |
+| case_22 | INCOMPLETE | INCOMPLETE | 8 | 8 | yes | 0 | 0 |
+| case_23 | INCOMPLETE | INCOMPLETE | 8 | 8 | no | 1 | 1 |
+| case_24 | INCOMPLETE | INCOMPLETE | 7 | 7 | yes | 0 | 0 |
+| case_25 | COMPLETE | COMPLETE | 3 | 3 | yes | 0 | 0 |
+| case_26 | COMPLETE | COMPLETE | 6 | 6 | yes | 0 | 0 |
+| case_27 | COMPLETE | COMPLETE | 6 | 6 | yes | 0 | 0 |
+| case_28 | COMPLETE | COMPLETE | 6 | 6 | yes | 0 | 0 |
+| case_29 | INCOMPLETE | INCOMPLETE | 14 | 14 | yes | 0 | 0 |
+| case_30 | INCOMPLETE | INCOMPLETE | 14 | 14 | yes | 0 | 0 |
+| case_31 | COMPLETE | COMPLETE | 3 | 3 | yes | 0 | 0 |
+| case_32 | INCOMPLETE | INCOMPLETE | 5 | 5 | yes | 0 | 0 |
 
-The largest initial failure was unsupported extraction (32 cases), addressed with general native adapters. Root diagnostics then exposed intent parsing (26 cases), addressed with clause-scoped explicit deletion/audit grammar. Safeguards removed invented shared-context witnesses, preserve missing fields as unknown, and represent unassigned media identifiers as coverage gaps. Five status-correct predictions were withdrawn rather than represented as successful deletion. The first integration check caught a missing telemetry count allowlist entry; that was fixed and the complete suite passed. See the iteration report for each policy source/locator and remaining work.
+The baseline and candidate both have 32/32 correct statuses and 29/32 exact sequences; the baseline output was independently reproduced byte-for-byte with SHA-256 `0d80a7d4bad671870762bf5a6edab41a9c48d146dd2292367e5cb8b228207194`.
 
-The diagnostic refactor preserved prediction bytes and failure outcomes. Subsequent independent gap validation and telemetry repair also preserved the final prediction bytes (`f97f6e6d396271e1e955e874f81c1fd808559892bb348a925922ae3ab4b0b574`). Correctness changes have an explanation for every changed prediction. Full-dataset byte equivalence is unavailable because there is no complete 518-row output before or after these changes.
+## Measured candidate differences
 
-## Limitations
+Only three target-case evidence fields change. No status, resource ID, operation, state or array order changes. Each previously blank COMPLETE account verification now uses the most recent eligible prior absence under the inherited coverage model, provided no newer presence or creating operation invalidates it. This is a general rule, not a case-ID correction. Pre-request persistence and authoritative scope are assumptions that must remain visible, not a hidden-score guarantee.
 
-The six surviving rows still omit eight expected checks across five cases; only case_05 is full-case exact. Remaining failures include intent (10), policy (9), media coverage (4), ownership (2) and state (1). The strict enclosing-capture gate can exclude relevant retrospective observations. SQL negative-query coverage, ownership of cleared records, policy metadata continuity, indirect identifiers, OCR layout interpretation and multi-source citations remain unresolved. A correct status is not evidence that the entire audit or plan is correct.
+| Case | Resource | Before | Candidate |
+| --- | --- | --- | --- |
+| case_45 | account_003 | (empty) | evidence_54 |
+| case_126 | account_8819 | (empty) | evidence_15 |
+| case_127 | account_6805 | (empty) | evidence_15 |
 
-The earlier full-dataset smoke stopped at unsupported extraction. Current format adapters have been exercised across all 94 supplied artifacts by sample prediction; no new completed full-dataset run or root output.csv is claimed. The production CLI remains all-or-nothing on unresolved investigations. Supplied participant data and upstream attribution are unchanged; organizer-only truth and generator internals were not consulted.
+## Additional cases and tests
+
+Recorded final test run: **175 passed in 30.16 seconds**. The command and environment are recorded in test_run.json. This includes the 152 upstream tests plus local identity, evidence, model-boundary, SQL and coordinator regressions. Tests ran separately; rerunning this report alone does not rerun pytest.
+
+Local counterexamples cover: two future email changes; an eligible snapshot unaffected by later changes; an already-absent account before its request; later sync invalidation; a newer presence blocking stale absence; impossible post-capture observations; preserving image clocks; international phone normalization; rejecting uncited COMPLETE; and image hash mismatch. The inherited custom-case harness also passes 12/12.
+
+The current agent architecture pass adds typed tool contracts, a real CLI coordinator, aggregate execution traces, validation before atomic publication, bounded model calls, cache-hit validation, new versioned prompts and confined manifest/SQL loading. The CSV remains byte-for-byte identical to the prior three-citation candidate. See ../ARCHITECTURE.md and DECISION_GUIDE.md for design rationale and an explicitly editorial guide to the actual development record. Historical prompts were not rewritten.
+
+## Limitations and inherited behavior
+
+The upstream scoring profile retains timing inference, numeric case-order tie breaks, a naming fallback and retrospective ownership membership. The local identity fix removes intermediate future values but does not turn retrospective metadata into information available earlier. State citations obey their clocks, and impossible post-capture observations are now rejected. Unknown permission defaults and other inherited inference assumptions remain review issues; do not call this a fully strict proof engine.
+The validator now rejects empty COMPLETE citations and passes all 518 candidate rows; it does not establish historical ownership or hidden canonical correctness. No sample answer, imported output CSV or per-case lookup table enters prediction logic. Dataset files were not modified.
+
+A focused reinspection found no indexed observations or activity for the two missing audit resources. This is an extraction/inventory diagnostic, not proof that their IDs are absent from every rendered artifact. The account mismatch has two unowned failed delete candidates in the same timing window; the inherited case-order tie break chooses the wrong one. No supported replacement ownership link was established, so no sample-ID correction was introduced. The detailed missing/extra tuples above expose every operation, state, resource and evidence difference; shifted positions arise from these inventory differences, rather than an independent sort defect.
+
+## Subsequent request-interpretation and evidence-ledger iteration
+
+The latest source passes 233 tests (175 prior tests plus 58 new regressions). All 550 frozen request predictions remain byte-identical; sample status accuracy remains 32/32 and full-case exact accuracy remains 29/32. This is a reliability improvement, not a measured public-score increase. The actual CLI now exports a detailed source ledger with --ledger while retaining an aggregate-only trace.
+
+The shared index contains 3,101 observations and 14 declared coverages from all 94 files. Twenty ledger references remain unresolved, separately from 22 unresolved case references and 137 states without a current witness. Empty extraction is not absence; unresolved intent or explicit unknown readbacks stop publication. Historical caches and source attribution are preserved. See [request_ledger_report.md](request_ledger_report.md) for the frozen hashes, failure tests, rendered-source review and remaining inherited assumptions.
+
+
+## Targeted investigation of the three remaining mismatches
+
+See [three_mismatch_investigation.md](three_mismatch_investigation.md) for exact source locations, clocks, subject identifiers, conflicts, rendered-document review and reproducible searches. The earlier account investigation's two-candidate description was incomplete: account_9155/activity_3663 is a third unowned failed candidate in the same window. None of the three has a subject-bearing ownership witness. Numeric case order and event order explain the current selection but cannot justify swapping to the public reference ID.
+
+Neither audit_record_6645 nor audit_record_5569 was located in participant sources, including all SQL captures, decoded JSON, correlated logs, unresolved ledger references, seven rendered PDF pages and eleven screenshots. No supported general correction was found, and all three mismatches remain unresolved. The added utility is read-only and excluded from prediction; its tests use independent synthetic examples rather than expected associations.
+
+Final validation: **247 tests passed in 45.04 seconds**. All 518 target predictions and the combined 550-row freeze are byte-identical; the actual offline CLI independently produced the same 518-row SHA-256 e2055a0589327e563eb2cfddac20eeef1a4694c2b06a956ff1f94bc2dcfd92bc. Zero changed predictions, no production resolver changes and no hosted inference. Public status accuracy remains 32/32; full-case exact accuracy remains 29/32. Missing-source evidence is not deletion proof or evidence that the public reference is wrong.

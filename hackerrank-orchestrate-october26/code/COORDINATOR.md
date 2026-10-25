@@ -1,3 +1,5 @@
+> This document describes the preserved independent profile (`code/proof_main.py`, package `audit_agent`). The default CLI is documented in ARCHITECTURE.md and README.md.
+
 # Implemented coordinator and tool boundaries
 
 The executable entry point is `python -B code/main.py` (Python 3.10+, standard library only). It constructs the real `AuditAgent` with seven default tools. The coordinator is not an unused architecture wrapper: the CLI has no alternative prediction/publication route.

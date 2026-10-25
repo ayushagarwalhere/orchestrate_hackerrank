@@ -10,6 +10,17 @@ For each request, the agent must first determine whether deletion was actually r
 
 Read [`problem_statement.md`](./problem_statement.md) for the complete challenge contract.
 
+The default CLI now uses the authorized derivative that reproduced **32/32 public statuses and 29/32 exact cases** in the previous checkout. It regenerates predictions from this folder's inputs. The independent conservative coordinator is preserved as `code/proof_main.py`, with its original package under `code/audit_agent/`. See [`code/UPSTREAM.md`](code/UPSTREAM.md) for attribution. The default approach includes documented timing, naming and retrospective-linking assumptions; this public score is not a hidden-score guarantee.
+
+```powershell
+python -m pip install -r requirements.txt
+python -B code/main.py --no-llm --trace runs/default-trace.json --ledger runs/default-ledger.json
+python -B code/validate_output.py
+python -B code/evaluation/score.py
+```
+
+Default-profile tests run with `python -m pytest code/benchmark_tests -q`. The independent coordinator's tests run with `python -B code/evaluation/proof_tests.py`. Its diagnostic freeze/comparison commands below concern that independent coordinator, not the default CLI.
+
 The design is documented in [`code/ARCHITECTURE.md`](./code/ARCHITECTURE.md), with inspected schemas and policy mapping in [`code/DATA_CONTRACT.md`](./code/DATA_CONTRACT.md). The executable coordinator, typed tool contracts, permitted effects, telemetry, adapter interface and present coverage limits are described in [`code/COORDINATOR.md`](./code/COORDINATOR.md).
 
 The explicit observation/ownership/inference model, timing and coverage assumptions, phone normalization and structural-refactor regression results are documented in [`code/EVIDENCE_REASONING.md`](./code/EVIDENCE_REASONING.md).
@@ -45,9 +56,9 @@ Run the starter Python entry point with:
 python3 code/main.py
 ```
 
-The implementation requires Python 3.10+ and `pypdf` (`python -m pip install -r requirements.txt`, or `python -m pip install pypdf` when using the packaged code). All CLI runs execute `AuditAgent`: load inputs, extract evidence, build one shared index, investigate each request, compile plans, validate, then atomically publish. Tool outcomes and aggregate counts are written to `runs/tool_outcomes.jsonl` without source text or credentials. Use `python -B code/evaluation/main.py` to run the independent coordinator tests.
+Install the requirements for Python 3.10+: the default profile uses `pdfplumber`; the independent profile also uses `pypdf`. Both entry points execute real coordinators with shared evidence indexing, validation and atomic publication. The default profile writes aggregate outcomes with `--trace` and a detailed source ledger with `--ledger`; the independent profile uses its original telemetry options.
 
-Native extraction covers the supplied structured JSON families, text handovers, bounded in-memory SQL snapshots, service log readbacks and PDF text. Local PNG OCR requires Windows PowerShell, WinRT OCR and an installed English language pack; unavailable OCR fails explicitly. Its limited row interpretation can leave subject-scoped coverage gaps. Optional model use is limited to PNG screenshot facts and genuinely ambiguous request intent. The old unrestricted `--extractor` CLI is rejected. A provider/model profile enables cache-only replay; `--allow-live` plus `--model-client module_name:factory_name` explicitly enables bounded client calls. See [`code/MODEL_EXECUTION.md`](./code/MODEL_EXECUTION.md). This is not yet a complete 518-case solution.
+The default profile reuses the validated historical screenshot facts with their original provenance; live model use requires `--live-llm`. The independent `proof_main.py` profile uses native adapters and Windows OCR, and remains incomplete: unsupported media, missing policy proof or ambiguous intent stop publication. Its `--allow-live` / `--model-client` options and constrained prompts are described in [`code/MODEL_EXECUTION.md`](./code/MODEL_EXECUTION.md).
 
 Measured iteration is documented in [`code/evaluation/iteration_report.md`](./code/evaluation/iteration_report.md). Freeze predictions before comparing public answers:
 

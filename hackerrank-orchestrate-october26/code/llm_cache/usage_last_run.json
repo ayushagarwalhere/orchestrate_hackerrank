@@ -1,0 +1,19 @@
+{
+  "cached_answers": [
+    {
+      "answers": 11,
+      "cost_usd": 0.0,
+      "input_tokens": 22576,
+      "model": "gemini-4-argon",
+      "output_tokens": 3943,
+      "provider": "google",
+      "task": "image_facts"
+    }
+  ],
+  "prices_usd_per_mtok": {
+    "input": 0.0,
+    "output": 0.0
+  },
+  "requests": 518,
+  "this_run": []
+}

@@ -52,6 +52,7 @@ class RequestInterpretation(unittest.TestCase):
 
     def test_mixed_new_restore_and_delete_requests_remain_unresolved(self):
         with self.assertRaises(AuditFailure): request_authorizes("Please delete my account and restore my account.")
+        with self.assertRaises(AuditFailure): request_authorizes("Please erase my account. I am not asking for deletion.")
 
     def test_information_request_negation_does_not_require_an_account_object(self):
         self.assertFalse(request_authorizes("Please send my information. This is an information request, not a request to erase it."))
