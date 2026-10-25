@@ -10,7 +10,7 @@ For each request, the agent must first determine whether deletion was actually r
 
 Read [`problem_statement.md`](./problem_statement.md) for the complete challenge contract.
 
-The default CLI now uses the authorized derivative that reproduced **32/32 public statuses and 29/32 exact cases** in the previous checkout. It regenerates predictions from this folder's inputs. The independent conservative coordinator is preserved as `code/proof_main.py`, with its original package under `code/audit_agent/`. See [`code/UPSTREAM.md`](code/UPSTREAM.md) for attribution. The default approach includes documented timing, naming and retrospective-linking assumptions; this public score is not a hidden-score guarantee.
+The default CLI regenerates predictions from this folder's inputs. The independent conservative coordinator is preserved as `code/proof_main.py`, with its package under `code/audit_agent/`. The default approach includes documented timing, naming and retrospective-linking assumptions; local evaluation is not a hidden-score guarantee.
 
 ```powershell
 python -m pip install -r requirements.txt

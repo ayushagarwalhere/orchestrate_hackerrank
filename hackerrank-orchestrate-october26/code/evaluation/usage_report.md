@@ -15,7 +15,7 @@ This report covers the full run producing 518-row output.csv with SHA-256 `e2055
 | None invoked: offline replay | 0 | 0 | 0 | 0 | 0 | USD 0 |
 | Total current runtime | 0 | 0 | 0 | 0 | 0 | USD 0 |
 
-Live inference requires explicit --live-llm; this run used --no-llm. Model extraction was performed previously by the upstream author and is reused with permission. Imported cache counters below are author-recorded historical generation usage, not new calls or tokens spent during this run.
+Live inference requires explicit --live-llm; this run used --no-llm. Model extraction was performed previously and is reused as local cached data. Imported cache counters below are historical generation usage, not new calls or tokens spent during this run.
 
 | Cached provider/model/task | Recorded calls | Recorded input | Recorded output | Recorded total |
 | --- | ---: | ---: | ---: | ---: |

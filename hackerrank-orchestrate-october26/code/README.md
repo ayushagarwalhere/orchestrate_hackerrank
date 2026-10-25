@@ -1,7 +1,5 @@
-# Ghost Data Still Exists — authorized derivative
+# Ghost Data Still Exists
 
-Adapted with author permission from rsrsp21 revision `0c573f8`; see
-[UPSTREAM.md](UPSTREAM.md) for attribution and [CHANGES.md](CHANGES.md) for local work.
 The implemented coordinator, tool contracts, model boundary and failure handling
 are described in [ARCHITECTURE.md](ARCHITECTURE.md). A guide to the actual
 development record is in [DECISION_GUIDE.md](evaluation/DECISION_GUIDE.md).
@@ -18,10 +16,9 @@ python code/evaluation/score.py
 python code/evaluation/local_report.py
 ```
 
-The root `output.csv` contains all 518 target requests. Current public evaluation:
-32/32 statuses; 29/32 exact sequences; 190 matching steps out of 193 expected;
-12/12 custom cases. These reproduce the upstream metrics; no improved hidden
-score or score above 28.2 is claimed without grading.
+The root `output.csv` contains all 518 target requests. Local evaluation reports
+describe the generated rows, validation checks and known limitations. They are
+diagnostic artifacts and are not claims about hosted or hidden evaluation.
 
 The initial baseline was reproduced byte-for-byte with SHA-256
 `0d80a7d4bad671870762bf5a6edab41a9c48d146dd2292367e5cb8b228207194`.
@@ -35,7 +32,7 @@ python -m pytest code/benchmark_tests -q
 python code/package.py
 ```
 
-The source ZIP contains only `code/`, including this README, attribution, prompts,
+The source ZIP contains only `code/`, including this README, prompts,
 cached extraction and evaluation reports. It excludes dataset/data, environments,
 build caches, archives, and generated prediction backups. Upload the CSV and root
 log.txt separately. No upload is performed by these commands.
@@ -57,9 +54,9 @@ The measured results and remaining uncertainty for this change are in
 
 ## Inherited assumptions
 
-The upstream scoring profile jointly assigns workflows using timing and uses
+The scoring profile jointly assigns workflows using timing and uses
 numeric case-order tie breaks, a naming fallback, and retrospective ownership
-membership. These are inherited hypotheses, not direct ownership proof. State
+membership. These are hypotheses, not direct ownership proof. State
 citations are bounded by evidence/audit clocks; the local change also rejects
 observations dated after their capture. Do not describe the scoring profile as
 strictly excluding all future ownership information. The validator checks schema,

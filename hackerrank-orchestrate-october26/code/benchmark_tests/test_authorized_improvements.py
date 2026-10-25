@@ -1,4 +1,4 @@
-"""General regressions added to the author-approved baseline; no case-ID rules."""
+"""General regressions for the local baseline; no case-ID rules."""
 from pathlib import Path
 import sys,csv,json
 from types import SimpleNamespace

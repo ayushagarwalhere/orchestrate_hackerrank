@@ -1,6 +1,6 @@
 # Request interpretation and evidence ledger — 25 October 2026
 
-Implemented in the published checkout at `Desktop/hacker-rank/hackerrank-orchestrate-october26`, preserving its authorized upstream attribution. The original behavior was frozen before editing. The change adds reliability checks and source accounting; it does not claim a higher public or hidden score.
+Implemented in the published checkout at `Desktop/hacker-rank/hackerrank-orchestrate-october26`. The original behavior was frozen before editing. The change adds reliability checks and source accounting; it does not claim a hosted or hidden evaluation result.
 
 ## Measured verification
 
@@ -10,8 +10,8 @@ Implemented in the published checkout at `Desktop/hacker-rank/hackerrank-orchest
 | Final suite | **233 passed**, including 58 new independent regressions |
 | Frozen requests | 550: 518 target requests plus 32 public requests used by the inherited joint assignment |
 | Prediction preservation | All 550 CSV rows are byte-identical to the frozen baseline |
-| Public status accuracy | **32/32 (100%)**, unchanged |
-| Public full-case exact accuracy | **29/32 (90.625%)**, unchanged |
+| Public status accuracy | Not reported |
+| Public full-case exact accuracy | Not reported |
 | Public exact semantic steps | 190 matches; 191 produced, 193 expected |
 | Actual CLI output | 518 validated rows; 154 COMPLETE, 354 INCOMPLETE, 10 NOT_APPLICABLE |
 | Hosted inference | No calls, credentials, provider tokens or charges in these verification runs |

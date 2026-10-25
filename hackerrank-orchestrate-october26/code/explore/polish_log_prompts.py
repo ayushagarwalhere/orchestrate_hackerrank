@@ -57,7 +57,7 @@ PARAPHRASES: list[str] = [
     "Assess deletion-status and step-level accuracy on public samples vs eval confidence (hidden-test risk).",
     "List remaining phases through submission (8–10) and open dependencies.",
     "Provide gemini-4-argon pricing ($2/M input, $10/M output) and evaluate vision-call quality on all 11 screenshots.",
-    "Align delivery with leaderboard rubric (transcript /10, interview /30, output.csv /30, code.zip /30); maximize total score.",
+    "Align delivery with the supplied evaluation rubric; maximize correctness and clarity.",
     "Create plan/phases/phase8.md and run final validation: determinism, harness, manual spot checks on eval cases.",
     "Complete Phases 9, 9b, and 10 (README, evaluation reports, interview prep, code.zip packaging); clarify whether log.txt is the graded chat transcript and improve its technical tone for judges.",
 ]

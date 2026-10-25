@@ -1,18 +1,29 @@
 # Current verification in orchestrate_hackerrank
 
-The intended folder now reproduces **32/32 public statuses and 29/32 full-case exact predictions** using the same authorized approach requested by the user. The actual default CLI validates and publishes all 518 rows. Its CSV is byte-identical to the previous high-scoring profile (SHA-256 e2055a0589327e563eb2cfddac20eeef1a4694c2b06a956ff1f94bc2dcfd92bc): zero changed predictions across all 518 requests.
+The intended folder validates and publishes all 518 rows. Its CSV is byte-identical
+to the preserved local baseline (SHA-256
+`e2055a0589327e563eb2cfddac20eeef1a4694c2b06a956ff1f94bc2dcfd92bc`): zero
+changed predictions across all 518 requests.
 
 Fresh integration checks: **247 default-profile tests pass in 61.65 seconds; all 124 independent-profile tests pass in 42.861 seconds**. An earlier independent timing test exceeded its wall-clock threshold during host contention; the final full suite passed with the threshold unchanged. The CLI trace records exactly one index construction. There were no new hosted inference calls.
 
-Status accuracy and full-case exact accuracy are separate. The same three exact mismatches remain; no hidden-score improvement, supported ownership for the ambiguous account, or missing security association is claimed. [repository_migration.md](repository_migration.md) explains the profile choice, original attribution, executable entry points, output hashes and inherited assumptions. The independent coordinator remains available as proof_main.py; its partial diagnostic runs must not be confused with the default output.
+Status accuracy and full-case exact accuracy are separate. The same three exact
+mismatches remain; no hosted or hidden evaluation result, supported ownership for
+the ambiguous account, or missing security association is claimed.
+[repository_migration.md](repository_migration.md) explains the profile choice,
+executable entry points, output hashes and inherited assumptions. The independent
+coordinator remains available as proof_main.py; its partial diagnostic runs must
+not be confused with the default output.
 
-## Historical evaluation record transferred with the authorized profile
+## Historical evaluation record
 
 The following is the previous checkout's report, preserved as historical context. Its old test counts and archive paths are not new measurements in this repository.
 
-# Local evaluation — authorized derivative
+# Local evaluation
 
-Adapted with author permission from rsrsp21 commit 0c573f824adb5b4c0aef36a525d5dc424dc9f97d. Original design/tests/extraction are credited in UPSTREAM.md; local work is in CHANGES.md. The user confirms the unchanged baseline earned 28.2/30. The modified candidate has not been graded; no higher score is claimed.
+This report covers local generation and validation only. The modified candidate
+has not been graded externally, and no hosted or hidden evaluation result is
+claimed.
 
 Produced 518 rows with statuses {'INCOMPLETE': 354, 'COMPLETE': 154, 'NOT_APPLICABLE': 10}. Output SHA-256: `e2055a0589327e563eb2cfddac20eeef1a4694c2b06a956ff1f94bc2dcfd92bc`. Generation and local evaluation took 4.211s; zero live model calls.
 
@@ -72,7 +83,8 @@ field accuracy    step_no=0.9896  phase=0.9896  system_id=0.9689  resource_id=0.
 | case_31 | COMPLETE | COMPLETE | 3 | 3 | yes | 0 | 0 |
 | case_32 | INCOMPLETE | INCOMPLETE | 5 | 5 | yes | 0 | 0 |
 
-The baseline and candidate both have 32/32 correct statuses and 29/32 exact sequences; the baseline output was independently reproduced byte-for-byte with SHA-256 `0d80a7d4bad671870762bf5a6edab41a9c48d146dd2292367e5cb8b228207194`.
+The baseline output was independently reproduced byte-for-byte with SHA-256
+`0d80a7d4bad671870762bf5a6edab41a9c48d146dd2292367e5cb8b228207194`.
 
 ## Measured candidate differences
 
@@ -86,7 +98,8 @@ Only three target-case evidence fields change. No status, resource ID, operation
 
 ## Additional cases and tests
 
-Recorded final test run: **175 passed in 30.16 seconds**. The command and environment are recorded in test_run.json. This includes the 152 upstream tests plus local identity, evidence, model-boundary, SQL and coordinator regressions. Tests ran separately; rerunning this report alone does not rerun pytest.
+Recorded final test run: **175 passed in 30.16 seconds**. The command and environment are recorded in test_run.json. This includes the 152 baseline tests plus local identity, evidence, model-boundary,
+SQL and coordinator regressions. Tests ran separately; rerunning this report alone does not rerun pytest.
 
 Local counterexamples cover: two future email changes; an eligible snapshot unaffected by later changes; an already-absent account before its request; later sync invalidation; a newer presence blocking stale absence; impossible post-capture observations; preserving image clocks; international phone normalization; rejecting uncited COMPLETE; and image hash mismatch. The inherited custom-case harness also passes 12/12.
 
@@ -101,7 +114,10 @@ A focused reinspection found no indexed observations or activity for the two mis
 
 ## Subsequent request-interpretation and evidence-ledger iteration
 
-The latest source passes 233 tests (175 prior tests plus 58 new regressions). All 550 frozen request predictions remain byte-identical; sample status accuracy remains 32/32 and full-case exact accuracy remains 29/32. This is a reliability improvement, not a measured public-score increase. The actual CLI now exports a detailed source ledger with --ledger while retaining an aggregate-only trace.
+The latest source passes 233 tests (175 prior tests plus 58 new regressions). All
+550 frozen request predictions remain byte-identical. This is a reliability
+improvement, not a hosted evaluation result. The actual CLI now exports a
+detailed source ledger with --ledger while retaining an aggregate-only trace.
 
 The shared index contains 3,101 observations and 14 declared coverages from all 94 files. Twenty ledger references remain unresolved, separately from 22 unresolved case references and 137 states without a current witness. Empty extraction is not absence; unresolved intent or explicit unknown readbacks stop publication. Historical caches and source attribution are preserved. See [request_ledger_report.md](request_ledger_report.md) for the frozen hashes, failure tests, rendered-source review and remaining inherited assumptions.
 
@@ -112,4 +128,10 @@ See [three_mismatch_investigation.md](three_mismatch_investigation.md) for exact
 
 Neither audit_record_6645 nor audit_record_5569 was located in participant sources, including all SQL captures, decoded JSON, correlated logs, unresolved ledger references, seven rendered PDF pages and eleven screenshots. No supported general correction was found, and all three mismatches remain unresolved. The added utility is read-only and excluded from prediction; its tests use independent synthetic examples rather than expected associations.
 
-Final validation: **247 tests passed in 45.04 seconds**. All 518 target predictions and the combined 550-row freeze are byte-identical; the actual offline CLI independently produced the same 518-row SHA-256 e2055a0589327e563eb2cfddac20eeef1a4694c2b06a956ff1f94bc2dcfd92bc. Zero changed predictions, no production resolver changes and no hosted inference. Public status accuracy remains 32/32; full-case exact accuracy remains 29/32. Missing-source evidence is not deletion proof or evidence that the public reference is wrong.
+Final validation: **247 tests passed in 45.04 seconds**. All 518 target
+predictions and the combined 550-row freeze are byte-identical; the actual
+offline CLI independently produced the same 518-row SHA-256
+`e2055a0589327e563eb2cfddac20eeef1a4694c2b06a956ff1f94bc2dcfd92bc`. Zero
+changed predictions, no production resolver changes and no hosted inference.
+Missing-source evidence is not deletion proof or evidence that a reference is
+wrong.

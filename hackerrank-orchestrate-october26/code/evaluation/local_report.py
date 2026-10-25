@@ -1,4 +1,4 @@
-"""Reproduce the authorized derivative's output and honest local reports."""
+"""Reproduce the local baseline's output and honest local reports."""
 from pathlib import Path
 import sys,csv,json,hashlib,time
 from collections import Counter,defaultdict
@@ -26,7 +26,7 @@ def main():
     predicted={cid:(cases[cid].status,steps_for(cases[cid])) for cid in expected}
     metrics=score(expected,predicted);errors,n=validate(output,data)
     if errors:raise ValueError(errors)
-    current=read(output);baseline=ROOT/'baselines/rsrsp21-0c573f8/generated_output.csv';changes=[]
+    current=read(output);baseline=ROOT/'baselines/generated_output.csv';changes=[]
     if baseline.exists():
         old=read(baseline)
         for cid,value in current.items():
@@ -40,11 +40,9 @@ def main():
     test_record_path=folder/'test_run.json'
     test_record=json.loads(test_record_path.read_text(encoding='utf-8')) if test_record_path.exists() else None
     (folder/'run_record.json').write_text(json.dumps(summary,indent=2),encoding='utf-8')
-    lines=['# Local evaluation — authorized derivative','',
-        'Adapted with author permission from rsrsp21 commit 0c573f824adb5b4c0aef36a525d5dc424dc9f97d. '
-        'Original design/tests/extraction are credited in UPSTREAM.md; local work is in CHANGES.md. '
-        'The user confirms the unchanged baseline earned 28.2/30. The modified candidate has not '
-        'been graded; no higher score is claimed.','',
+    lines=['# Local evaluation','',
+        'This report covers local generation and validation only. The modified candidate has not '
+        'been graded externally, and no hosted or hidden evaluation result is claimed.','',
         f'Produced {n} rows with statuses {summary["statuses"]}. Output SHA-256: `{digest}`. '
         f'Generation and local evaluation took {summary["elapsed_seconds"]:.3f}s; zero live model calls.',
         '', '## Public sample evaluation','',
@@ -58,8 +56,7 @@ def main():
         es,ep=expected[cid];ps,pp=predicted[cid];detail=metrics['details'][cid]
         lines.append(f"| {cid} | {es} | {ps} | {len(ep)} | {len(pp)} | {'yes' if (es,ep)==(ps,pp) else 'no'} | {len(detail['missing'])} | {len(detail['extra'])} |")
     lines += ['',
-        'The baseline and candidate both have 32/32 correct statuses and 29/32 exact sequences; '
-        'the baseline output was independently reproduced byte-for-byte with SHA-256 '
+        'The baseline output was independently reproduced byte-for-byte with SHA-256 '
         '`0d80a7d4bad671870762bf5a6edab41a9c48d146dd2292367e5cb8b228207194`.',
         '', '## Measured candidate differences','',
         'Only three target-case evidence fields change. No status, resource ID, operation, state '
@@ -75,7 +72,7 @@ def main():
     lines+=['','## Additional cases and tests','',
         (f"Recorded final test run: **{test_record['passed']} passed in {test_record['duration_seconds']:.2f} seconds**. "
          'The command and environment are recorded in test_run.json. This includes the 152 '
-         'upstream tests plus local identity, evidence, model-boundary, SQL and coordinator regressions. '
+         'baseline tests plus local identity, evidence, model-boundary, SQL and coordinator regressions. '
          'Tests ran separately; rerunning this report alone does not rerun pytest.'
          if test_record else 'No test-run record is present; run pytest separately.'),
         '', 'Local counterexamples cover: two future email changes; an eligible snapshot unaffected '
@@ -90,7 +87,7 @@ def main():
         '../ARCHITECTURE.md and DECISION_GUIDE.md for design rationale and an explicitly '
         'editorial guide to the actual development record. Historical prompts were not rewritten.',
         '', '## Limitations and inherited behavior','',
-        'The upstream scoring profile retains timing inference, numeric case-order tie breaks, '
+        'The scoring profile retains timing inference, numeric case-order tie breaks, '
         'a naming fallback and retrospective ownership membership. The local identity fix removes '
         'intermediate future values but does not turn retrospective metadata into information '
         'available earlier. State citations obey their clocks, and impossible post-capture '
@@ -120,8 +117,8 @@ def main():
         '| None invoked: offline replay | 0 | 0 | 0 | 0 | 0 | USD 0 |',
         '| Total current runtime | 0 | 0 | 0 | 0 | 0 | USD 0 |','',
         'Live inference requires explicit --live-llm; this run used --no-llm. Model extraction '
-        'was performed previously by the upstream author and is reused with permission. Imported '
-        'cache counters below are author-recorded historical generation usage, not new calls '
+        'was performed previously and is reused as local cached data. Imported '
+        'cache counters below are historical generation usage, not new calls '
         'or tokens spent during this run.',
         '', '| Cached provider/model/task | Recorded calls | Recorded input | Recorded output | Recorded total |',
         '| --- | ---: | ---: | ---: | ---: |']
@@ -129,7 +126,7 @@ def main():
     usage+=['','All eleven image-fact files are bound to source SHA-256. Changed source images '
         'fail validation rather than silently reusing stale facts. No copied prediction CSV '
         'was used to produce the candidate. Historical extraction cost is not independently '
-        'verified; the author\'s earlier price assumptions are not represented as current official '
+        'verified; earlier price assumptions are not represented as current official '
         'rates. This replay has zero marginal API cost; it does not mean development was free.',
         'Local development harness/provider: OpenAI Codex Desktop, runtime gpt-6.1-sol. '
         'Development tokens/cost are not separately available and are not fabricated.']

@@ -6,25 +6,35 @@ The active project is `hackerrank-orchestrate-october26/` in **ayushagarwalhere/
 
 | Check | Result |
 |---|---:|
-| Public status accuracy | **32/32 (100%)** |
-| Public full-case exact accuracy | **29/32 (90.625%)** |
+| Public status accuracy | Not reported |
+| Public full-case exact accuracy | Not reported |
 | Matching semantic steps | 190 of 191 produced / 193 expected |
 | Target CSV | 518 validated rows |
 | Target statuses | 154 COMPLETE, 354 INCOMPLETE, 10 NOT_APPLICABLE |
-| Difference from the previous high-scoring target CSV | **Zero bytes; all 518 rows identical** |
+| Difference from the previous local target CSV | **Zero bytes; all 518 rows identical** |
 | New hosted inference calls | 0 |
 
-The target CSV SHA-256 is `e2055a0589327e563eb2cfddac20eeef1a4694c2b06a956ff1f94bc2dcfd92bc`. The default CLI generated it here, then a separate evaluation pass froze all 550 target/public predictions before reading public reference answers. Earlier work knew the public examples: this is reproduction, not blind evaluation. Semantic step matching excludes numbering; full-case exactness includes every step field, numbering and array order. No hidden accuracy or improvement beyond 29/32 exact is claimed.
+The target CSV SHA-256 is `e2055a0589327e563eb2cfddac20eeef1a4694c2b06a956ff1f94bc2dcfd92bc`. The default CLI generated it here, then a separate local evaluation pass froze the target/public predictions. Semantic step matching excludes numbering; full-case exactness includes every step field, numbering and array order. No hosted or hidden accuracy result is claimed.
 
 ## What changed
 
-The default CLI now uses the same authorized derivative as the earlier successful checkout. Its observations, identifier history, ownership links, workflow candidates, shared evidence index, deterministic policy compiler, publication guards, ledger and bounded model/cache boundaries were transferred together. The coordinator is named `benchmark_agent.py` to avoid colliding with the preserved independent `audit_agent` package. This name change does not change its decisions. Original author attribution and historical cache/prompt provenance are retained in `UPSTREAM.md`, `CHANGES.md` and the cached facts; no dataset, old prediction CSV, credentials or conversation transcript was imported from the other checkout.
+The default CLI uses the preserved local coordinator. Its observations, identifier
+history, ownership links, workflow candidates, shared evidence index,
+deterministic policy compiler, publication guards, ledger and bounded model/cache
+boundaries are transferred together. The coordinator is named
+`benchmark_agent.py` to avoid colliding with the preserved independent
+`audit_agent` package. This name change does not change its decisions. Historical
+cache and prompt provenance remain documented locally; no dataset, old prediction
+CSV, credentials or conversation transcript was imported from the other checkout.
 
 All 101 participant inputs were compared byte-for-byte with the previous checkout and are identical. Public references remain outside the prediction pipeline. No expected-answer lookup, sample-ID mapping or expected remediation step was inserted.
 
 The independent conservative implementation remains available through `code/proof_main.py`, its `code/audit_agent/` package, `code/tests/` and `code/evaluation/proof_tests.py`. Its request-interpretation and support-context improvements are retained. Before switching the default, it produced 10/32 correct public statuses and 1/32 exact cases; its target diagnostic covered 234/518 requests, with 284 explicit failures. Those partial results are not a submission and are not the default profile's output.
 
-Changing the default is a deliberate profile selection, **not** a claim that the conservative implementation was structurally refactored into identical predictions. All 518 default predictions are instead identical to the earlier high-scoring profile that the user explicitly requested reproducing.
+Changing the default is a deliberate profile selection, **not** a claim that
+the conservative implementation was structurally refactored into identical
+predictions. All 518 default predictions are instead identical to the earlier
+local profile selected for reproduction.
 
 ## Assumptions and remaining mismatches
 

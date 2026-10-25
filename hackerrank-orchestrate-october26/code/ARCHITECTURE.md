@@ -121,5 +121,5 @@ for broader deployment. The independent stricter implementation is preserved
 outside the submission under `archive/independent-20261025/`.
 
 This pass improves inspectability, execution boundaries and failure handling.
-Public accuracy and the hidden leaderboard score are separate measures; an
+Local diagnostics and hosted evaluation are separate measures; an
 engineering refactor does not establish a higher CSV score.
