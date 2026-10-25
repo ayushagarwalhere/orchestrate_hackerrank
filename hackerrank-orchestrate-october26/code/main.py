@@ -6,7 +6,7 @@ AuditAgent coordinates typed tools; policy.py remains responsible for decisions
 and ordering. Public sample inputs participate in joint workflow assignment;
 reference answers are read only by the separate evaluation entry point.
 
-Execution is offline by default. --live-llm explicitly enables optional Gemini
+Execution is offline by default. --enable-model explicitly enables optional Gemini
 extraction and ambiguous-intent classification. --trace writes aggregate tool
 events. A candidate must validate before it replaces the previous output.
 """
@@ -49,11 +49,17 @@ def run(data_dir, out_path, use_llm=False, trace_path=None, ledger_path=None):
     """Compatibility entry point used by evaluation and terminal execution."""
     started = time.perf_counter()
     llm = default_llm() if use_llm else None
-    rows = AuditAgent(llm=llm).run(Path(data_dir), Path(out_path), trace_path=trace_path, ledger_path=ledger_path)
+    agent = AuditAgent(llm=llm)
+    rows = agent.run(Path(data_dir), Path(out_path), trace_path=trace_path, ledger_path=ledger_path)
+    diagnostics = list(agent.trace.diagnostic_errors)
     if llm is not None:
-        usage_path = CACHE_DIR.parent / "usage_last_run.json"
-        summary = json.dumps(usage_summary(llm, len(rows)), indent=2, sort_keys=True)
-        usage_path.write_text(summary + "\n", encoding="utf-8")
+        from audit_artifacts import atomic_json
+        try:
+            atomic_json(CACHE_DIR.parent / "usage_last_run.json", usage_summary(llm, len(rows)))
+        except Exception:
+            diagnostics.append('usage_write_failed')
+    if diagnostics:
+        print("Published CSV; diagnostic warnings: " + ",".join(diagnostics), file=sys.stderr)
     status = Counter(s for _, s, _ in rows)
     print(f"wrote {len(rows)} rows to {out_path} in {time.perf_counter() - started:.1f}s; status {dict(sorted(status.items()))}")
     return rows
@@ -63,12 +69,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--data", default=str(ROOT / "dataset"), help="dataset directory")
     parser.add_argument("--out", default=str(ROOT / "output.csv"), help="output CSV path")
-    parser.add_argument("--no-llm", action="store_true", help="skip every LLM use (deterministic rules + committed facts only)")
-    parser.add_argument("--live-llm", action="store_true", help="explicitly enable configured model calls; default is offline cache-only replay")
+    model_options = parser.add_mutually_exclusive_group()
+    model_options.add_argument("--no-llm", action="store_true", help="use deterministic rules and validated cached facts only")
+    model_options.add_argument("--enable-model", action="store_true", help="explicitly authorize the configured bounded fact/intent adapter")
     parser.add_argument("--trace", type=Path, help="write an aggregate tool execution trace outside dataset/")
     parser.add_argument("--ledger", type=Path, help="write detailed source observations and extraction outcomes outside dataset/; may contain customer text")
     args = parser.parse_args()
-    run(Path(args.data), Path(args.out), use_llm=args.live_llm and not args.no_llm, trace_path=args.trace, ledger_path=args.ledger)
+    run(Path(args.data), Path(args.out), use_llm=args.enable_model, trace_path=args.trace, ledger_path=args.ledger)
 
 
 if __name__ == "__main__":

@@ -2,6 +2,16 @@
 
 An offline deletion-audit agent for the HackerRank Orchestrate challenge.
 
+## Architecture
+
+The entry point runs a bounded `AuditAgent` with explicit state transitions and typed, replaceable tool interfaces. It loads immutable requests, builds one shared evidence index, investigates ownership and state, compiles deterministic plans, validates the complete CSV and atomically publishes approved bytes.
+
+Models are confined to structured screenshot facts and ambiguous request intent. They cannot execute tools or generate final remediation. Prompts treat document contents as untrusted data; schemas, cache validation and source provenance checks are enforced in code.
+
+The output transaction detects changed candidates and preserves the previous CSV on failure. Aggregate traces contain stage outcomes, durations, declared effects and failure types. Detailed evidence is available through the optional ledger export.
+
+See `code/ENGINEERING.md` for the state diagram, tool contracts, prompt boundaries, publication protocol, test strategy and known limitations.
+
 ## Setup
 
 Use Python 3.10 or newer. Extract `code.zip` into a working directory, then place the supplied `dataset/` beside `code/`:

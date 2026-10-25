@@ -50,3 +50,14 @@ def test_secret_bearing_source_is_rejected(tmp_path, monkeypatch):
     (tmp_path / 'code/credential.py').write_bytes(b'sk-' + b'X' * 24)
     with pytest.raises(SystemExit, match='secret-bearing'):
         package.build(tmp_path / 'release.zip')
+
+
+def test_interrupted_zip_write_preserves_the_previous_release(tmp_path, monkeypatch):
+    project(tmp_path, monkeypatch)
+    target = tmp_path / 'release.zip'
+    target.write_bytes(b'previous complete release')
+    def fail(*args, **kwargs): raise OSError('synthetic interrupted write')
+    monkeypatch.setattr(zipfile.ZipFile, 'writestr', fail)
+    with pytest.raises(OSError): package.build(target)
+    assert target.read_bytes() == b'previous complete release'
+    assert not list(tmp_path.glob('.package-*'))

@@ -1,5 +1,7 @@
 # Ghost Data Still Exists
 
+The runtime state machine, typed tool boundaries, prompt contracts and validated-artifact publication protocol are described in [ENGINEERING.md](ENGINEERING.md). They are enforced by the production coordinator and covered by failure-path regressions.
+
 The implemented coordinator, tool contracts, model boundary and failure handling
 are described in [ARCHITECTURE.md](ARCHITECTURE.md). A guide to the actual
 development record is in [DECISION_GUIDE.md](evaluation/DECISION_GUIDE.md).
@@ -38,7 +40,7 @@ build caches, archives, and generated prediction backups. Upload the CSV and roo
 log.txt separately. No upload is performed by these commands.
 
 Optional live extraction requires `requirements-live.txt`, provider credentials in
-the environment, and explicit `--live-llm`. Current reproduction requires neither.
+the environment, and explicit `--enable-model`. Current reproduction requires neither.
 New live extraction uses the v3 fact prompt; imported v2 facts keep their original
 provenance. The live model wrapper defaults to 32 adapter invocations. The agent
 validates a staged candidate before atomic publication; failed validation leaves

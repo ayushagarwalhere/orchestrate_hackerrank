@@ -487,3 +487,48 @@ branch=codex/reliable-audit
 repo_root=C:\Users\agarw\Desktop\orchestrate
 worktree=main
 parent_agent=none
+
+## [2026-10-25T07:48:51.798733+00:00] Explain whether a Gemini key improves the frozen submission
+
+User Prompt (verbatim, secrets redacted):
+tell me one more thing that using a gemini key would improve my submission ??
+
+
+Agent Response Summary:
+Inspected the actual live-inference flag, existing image-fact cache behavior and ambiguous-intent fallback without enabling a client or reading credentials. Confirmed all 550 current requests classify deterministically and all 11 image fact files already exist, so adding a key alone would not improve the current output. Explained that a model may help new image extraction or ambiguous requests but cannot establish absent security IDs or missing ownership relationships; any change needs separate evaluation before replacing the validated release. Consulted official Gemini image-understanding and structured-output documentation; no source, release artifact or prediction was changed and no hosted model call was made.
+
+Actions:
+* Read main.py, image_extract.py, llm.py, intent.py and the usage report; ran aggregate-only rule/cache checks.
+* Read official Google Gemini documentation through web search.
+* Verified the runtime model, appended the actual human prompt and reread the required harness/model fields.
+
+Context:
+tool=Codex Desktop
+model=gpt-6.1-sol
+branch=codex/reliable-audit
+repo_root=C:\Users\agarw\Desktop\orchestrate
+worktree=main
+parent_agent=none
+
+## [2026-10-25T08:24:58.471990+00:00] Harden coordinator and prepare reproducible source release
+
+User Prompt (verbatim, secrets redacted):
+okay so there's some last instructions increase the code quality - make sure that - 
+Agent architecture, prompt and tool design, robustness, and engineering quality visible in the source code. - use the best agentic practices in the code in terms of agentic building and best system design patterns that the judges would be looking for - and also add a readme in the code zip , rest is fine - and do remember not to include the mention of any leaderboard point guess, not the mention of -live--llm and neither any mention of rprps's repository - i want it to be clean only including the things that i have instructed to you !
+
+
+Agent Response Summary:
+Hardened the actual coordinator with enforced stage transitions, typed replaceable tool ports, immutable requests and explicit effect contracts. Added immutable validated-artifact approval, atomic diagnostics and ZIP publication, primary-failure preservation and failure-path regressions. Documented prompt boundaries and limitations in the engineering guide and the release README; renamed the explicit model opt-in flag and removed excluded release wording. All 518 target and 550 combined predictions remain byte-identical, with the complete default and independent suites verified before the pushed-source release is rebuilt locally.
+
+Actions:
+* Updated coordinator, tool contracts, artifact publication, CLI, package builder and release documentation.
+* Ran complete tests, fake-client failure regressions and full prediction-byte comparisons.
+* Prepared source push followed by an independently extracted local-only code ZIP, README, transcript and CSV.
+
+Context:
+tool=Codex Desktop
+model=gpt-6.1-sol
+branch=codex/reliable-audit
+repo_root=C:\Users\agarw\Desktop\orchestrate
+worktree=main
+parent_agent=none

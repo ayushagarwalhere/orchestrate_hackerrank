@@ -5,10 +5,9 @@ from datetime import datetime
 from enum import Enum
 import hashlib
 import json
-import os
 from pathlib import Path
-import tempfile
 import time
+from audit_artifacts import atomic_json
 
 
 class ExtractionStatus(str, Enum):
@@ -70,15 +69,7 @@ class EvidenceLedger:
             if isinstance(value, Enum): return value.value
             if isinstance(value, (set, frozenset)): return sorted(value)
             raise TypeError("Unsupported ledger value")
-        content = json.dumps({"schema_version": "evidence-ledger/v1", **asdict(self)}, default=encode, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
-        descriptor, name = tempfile.mkstemp(prefix=".ledger-", suffix=".json", dir=path.parent)
-        temporary = Path(name)
-        try:
-            with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as stream:
-                stream.write(content)
-            os.replace(temporary, path)
-        finally:
-            temporary.unlink(missing_ok=True)
+        atomic_json(path, {"schema_version": "evidence-ledger/v1", **asdict(self)}, default=encode)
 
     @property
     def extraction_failures(self):

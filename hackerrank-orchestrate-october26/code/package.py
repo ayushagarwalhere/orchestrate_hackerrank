@@ -9,8 +9,10 @@ would be included, then prints the contents.
 """
 
 import argparse
+import os
 import re
 import sys
+import tempfile
 import zipfile
 from pathlib import Path
 
@@ -44,20 +46,33 @@ def source_path(relative):
 
 def build(out):
     entries = collect()
+    contents = {relative: source_path(relative).read_bytes() for relative in entries}
     problems = [r for r in entries if FORBIDDEN.search(r)]
-    problems += [r for r in entries if SECRET.search(source_path(r).read_bytes())]
+    problems += [r for r in entries if SECRET.search(contents[r])]
     if problems:
         sys.exit(f"refusing to package forbidden or secret-bearing files: {problems}")
     out = Path(out)
     if out.resolve().is_relative_to((ROOT / "dataset").resolve()) or out.resolve().is_relative_to((ROOT / "code").resolve()):
         raise ValueError("Package output must be outside dataset and code")
     out.parent.mkdir(parents=True, exist_ok=True)
-    with zipfile.ZipFile(out, "w", compression=zipfile.ZIP_DEFLATED) as zf:
-        for rel in entries:
-            info = zipfile.ZipInfo(rel, date_time=FIXED_TIME)
-            info.compress_type = zipfile.ZIP_DEFLATED
-            info.external_attr = 0o644 << 16
-            zf.writestr(info, source_path(rel).read_bytes())
+    descriptor, name = tempfile.mkstemp(prefix='.package-', suffix='.zip', dir=out.parent)
+    os.close(descriptor)
+    temporary = Path(name)
+    try:
+        with zipfile.ZipFile(temporary, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+            for rel in entries:
+                info = zipfile.ZipInfo(rel, date_time=FIXED_TIME)
+                info.compress_type = zipfile.ZIP_DEFLATED
+                info.external_attr = 0o644 << 16
+                zf.writestr(info, contents[rel])
+        with zipfile.ZipFile(temporary) as zf:
+            if zf.testzip() is not None:
+                raise ValueError('Package integrity check failed')
+        with temporary.open('r+b') as stream:
+            os.fsync(stream.fileno())
+        os.replace(temporary, out)
+    finally:
+        temporary.unlink(missing_ok=True)
     return entries
 
 

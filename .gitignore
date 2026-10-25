@@ -10,3 +10,4 @@ __pycache__/
 **/.test-deps/
 **/submission/
 **/release-artifacts/
+**/archive/previous_outputs/

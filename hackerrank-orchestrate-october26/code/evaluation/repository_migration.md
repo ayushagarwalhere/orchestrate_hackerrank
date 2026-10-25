@@ -55,4 +55,4 @@ python -m pytest code/benchmark_tests -q
 python -B code/evaluation/proof_tests.py
 ```
 
-The actual CLI builds its index once and reuses it across all requests. `--trace` records aggregate outcomes and durations; `--ledger` is an explicit detailed source export. New live inference requires `--live-llm`; this reproduction used historical screenshot facts and no new provider calls. Historical extraction cost/provenance is not relabeled as a new zero-cost extraction.
+The actual CLI builds its index once and reuses it across all requests. `--trace` records aggregate outcomes and durations; `--ledger` is an explicit detailed source export. New live inference requires `--enable-model`; this reproduction used historical screenshot facts and no new provider calls. Historical extraction cost/provenance is not relabeled as a new zero-cost extraction.

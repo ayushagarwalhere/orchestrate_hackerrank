@@ -7,7 +7,8 @@ to evaluation/ and are deliberately absent from this interface.
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import NamedTuple
+from types import MappingProxyType
+from typing import Callable, Mapping, NamedTuple, Protocol
 
 from evidence.index import EvidenceIndex, build
 from image_extract import extract
@@ -23,11 +24,15 @@ class ToolContract:
     purpose: str
     effects: tuple[str, ...] = ("read_dataset",)
 
+    def __post_init__(self):
+        if not self.purpose or type(self.effects) is not tuple or any(type(e) is not str for e in self.effects):
+            raise ValueError("Invalid tool capability declaration")
+
 
 @dataclass(frozen=True)
 class AuditInputs:
-    targets: tuple[dict[str, str], ...]
-    requests: tuple[dict[str, str], ...]
+    targets: tuple[Mapping[str, str], ...]
+    requests: tuple[Mapping[str, str], ...]
 
 
 class PredictionRow(NamedTuple):
@@ -36,10 +41,31 @@ class PredictionRow(NamedTuple):
     steps_json: str
 
 
+class JsonModelPort(Protocol):
+    """Models may return structured facts; they have no publication capability."""
+    client: object | None
+
+    def generate_json(self, task: str, prompt: str, prompt_version: str,
+                      images=(), validate: Callable | None = None): ...
+
+
+class AuditToolPort(Protocol):
+    """Replaceable dependencies used by the actual coordinator."""
+    contracts: Mapping[str, ToolContract]
+
+    def load_inputs(self, data_dir: Path) -> AuditInputs: ...
+    def extract_facts(self, data_dir: Path, llm: JsonModelPort | None) -> dict: ...
+    def index_evidence(self, data_dir: Path) -> EvidenceIndex: ...
+    def investigate(self, data_dir: Path, inputs: AuditInputs, index: EvidenceIndex,
+                    llm: JsonModelPort | None) -> dict[str, CaseInvestigation]: ...
+    def compile_plan(self, inputs: AuditInputs, cases: dict[str, CaseInvestigation]) -> list[PredictionRow]: ...
+    def validate(self, candidate: Path, data_dir: Path) -> tuple[list[str], int]: ...
+
+
 class AuditTools:
     """Dependency boundary: tests can replace tools without invoking a model."""
 
-    contracts = {
+    contracts = MappingProxyType({
         "load_inputs": ToolContract("Load target and public-sample requests, never reference answers."),
         "extract_facts": ToolContract("Optional schema-checked image extraction.", ("read_dataset", "write_derived_cache", "model_api_if_enabled")),
         "index_evidence": ToolContract("Parse the corpus once and check image-extraction coverage.",
@@ -51,18 +77,18 @@ class AuditTools:
         "validate": ToolContract("Check a staged CSV against schema, citations, clocks and ordering.",
                                  ("read_dataset", "read_candidate")),
         "publish": ToolContract("Back up the previous output and atomically publish the validated CSV.", ("write_output", "write_backup")),
-    }
+    })
 
     def load_inputs(self, data_dir: Path) -> AuditInputs:
-        targets = tuple(load_requests(data_dir, ("deletion_requests.csv",)))
-        requests = tuple(load_requests(data_dir))
+        targets = tuple(MappingProxyType(row) for row in load_requests(data_dir, ("deletion_requests.csv",)))
+        requests = tuple(MappingProxyType(row) for row in load_requests(data_dir))
         ids = [request["case_id"] for request in requests]
         if not targets or len(ids) != len(set(ids)):
             raise ValueError("Requests must be nonempty and case IDs unique across input files")
         return AuditInputs(targets, requests)
 
-    def extract_facts(self, data_dir: Path, llm) -> dict:
-        # The CLI constructs a live client only after explicit --live-llm.
+    def extract_facts(self, data_dir: Path, llm: JsonModelPort | None) -> dict:
+        # The CLI constructs a live client only after explicit --enable-model.
         if llm is None or llm.client is None:
             return {}
         return extract(data_dir, llm)

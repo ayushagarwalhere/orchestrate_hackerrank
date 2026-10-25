@@ -58,7 +58,7 @@ python3 code/main.py
 
 Install the requirements for Python 3.10+: the default profile uses `pdfplumber`; the independent profile also uses `pypdf`. Both entry points execute real coordinators with shared evidence indexing, validation and atomic publication. The default profile writes aggregate outcomes with `--trace` and a detailed source ledger with `--ledger`; the independent profile uses its original telemetry options.
 
-The default profile reuses the validated historical screenshot facts with their original provenance; live model use requires `--live-llm`. The independent `proof_main.py` profile uses native adapters and Windows OCR, and remains incomplete: unsupported media, missing policy proof or ambiguous intent stop publication. Its `--allow-live` / `--model-client` options and constrained prompts are described in [`code/MODEL_EXECUTION.md`](./code/MODEL_EXECUTION.md).
+The default profile reuses the validated historical screenshot facts with their original provenance; live model use requires `--enable-model`. The independent `proof_main.py` profile uses native adapters and Windows OCR, and remains incomplete: unsupported media, missing policy proof or ambiguous intent stop publication. Its `--allow-live` / `--model-client` options and constrained prompts are described in [`code/MODEL_EXECUTION.md`](./code/MODEL_EXECUTION.md).
 
 Measured iteration is documented in [`code/evaluation/iteration_report.md`](./code/evaluation/iteration_report.md). Freeze predictions before comparing public answers:
 

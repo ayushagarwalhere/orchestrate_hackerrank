@@ -7,21 +7,71 @@ There is one coordinator, not a simulated team of independent model agents.
 
 import csv
 import hashlib
-import json
 import os
 import shutil
 import tempfile
 import time
 from collections import Counter
+from collections.abc import Mapping
 from dataclasses import asdict, dataclass, field
+from enum import Enum
 from pathlib import Path
+from types import MappingProxyType
 from typing import Callable, TypeVar
 
-from audit_tools import AuditTools, PredictionRow
+from audit_tools import AuditInputs, AuditToolPort, AuditTools, JsonModelPort, PredictionRow, ToolContract
+from audit_artifacts import ValidatedCandidate, atomic_json, fingerprint
 
 ROOT = Path(__file__).resolve().parents[1]
 Result = TypeVar("Result")
 HEADER = ("case_id", "deletion_status", "steps_json")
+
+
+class RunState(str, Enum):
+    CREATED = 'created'
+    LOADED = 'loaded'
+    EXTRACTED = 'extracted'
+    INDEXED = 'indexed'
+    INVESTIGATED = 'investigated'
+    COMPILED = 'compiled'
+    VALIDATED = 'validated'
+    PUBLISHED = 'published'
+    FAILED = 'failed'
+
+
+TRANSITIONS = MappingProxyType({
+    'load_inputs': (RunState.CREATED, RunState.LOADED),
+    'extract_facts': (RunState.LOADED, RunState.EXTRACTED),
+    'index_evidence': (RunState.EXTRACTED, RunState.INDEXED),
+    'investigate': (RunState.INDEXED, RunState.INVESTIGATED),
+    'compile_plan': (RunState.INVESTIGATED, RunState.COMPILED),
+    'validate': (RunState.COMPILED, RunState.VALIDATED),
+    'publish': (RunState.VALIDATED, RunState.PUBLISHED),
+})
+
+
+class ToolContractError(ValueError):
+    """A dependency violated stage order, declared effects or return shape."""
+
+
+def check_result(name: str, result) -> None:
+    valid = True
+    if name == 'load_inputs':
+        valid = isinstance(result, AuditInputs) and bool(result.targets) and bool(result.requests)
+    elif name == 'extract_facts':
+        valid = isinstance(result, dict)
+    elif name == 'index_evidence':
+        valid = all(isinstance(getattr(result, attr, None), (list, tuple))
+                    for attr in ('observations', 'coverages', 'activities'))
+    elif name == 'investigate':
+        valid = isinstance(result, dict)
+    elif name == 'compile_plan':
+        valid = isinstance(result, list) and all(isinstance(row, tuple) and len(row) == 3
+                    and all(isinstance(value, str) for value in row) for row in result)
+    else:
+        valid = result is None
+    if not valid:
+        raise ToolContractError('Tool returned an invalid result shape')
 
 # These are disclosed limitations of the inherited scoring profile. An execution
 # trace records them instead of describing heuristic ownership as proven fact.
@@ -52,11 +102,13 @@ class RunTrace:
     output_sha256: str | None = None
     published: bool = False
     assumptions: tuple[str, ...] = ASSUMPTIONS
+    state: RunState = RunState.CREATED
+    failure_type: str | None = None
+    diagnostic_errors: list[str] = field(default_factory=list)
 
     def write(self, path: Path) -> None:
         # Aggregate telemetry excludes customer text, identifiers and credentials.
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(asdict(self), indent=2) + "\n", encoding="utf-8")
+        atomic_json(path, asdict(self))
 
 
 class OutputValidationError(ValueError):
@@ -66,23 +118,45 @@ class OutputValidationError(ValueError):
 class AuditAgent:
     """A single-run coordinator with replaceable tools and an optional model port."""
 
-    def __init__(self, tools: AuditTools | None = None, llm=None, backup_dir: Path | None = None):
+    def __init__(self, tools: AuditToolPort | None = None, llm: JsonModelPort | None = None,
+                 backup_dir: Path | None = None, *, clock: Callable[[], float] = time.perf_counter):
         self.tools = tools if tools is not None else AuditTools()
         self.llm = llm
         self.backup_dir = backup_dir if backup_dir is not None else ROOT / "archive/previous_outputs"
         self.trace = RunTrace(mode="live_enabled" if llm is not None else "offline")
         self.ledger = None
+        self._clock = clock
+        self._validated: ValidatedCandidate | None = None
 
     def _call(self, name: str, action: Callable[[], Result]) -> Result:
         """Record success/failure while preserving the original tool exception."""
-        started = time.perf_counter()
+        started = self._clock()
         error_type = None
+        contract = None
+        canonical = AuditTools.contracts.get(name)
         try:
-            return action()
+            declared = getattr(self.tools, 'contracts', None)
+            if not isinstance(declared, Mapping):
+                raise ToolContractError('Tool capabilities are not declared')
+            contract = declared.get(name)
+            if not isinstance(contract, ToolContract) or canonical is None or contract.effects != canonical.effects:
+                raise ToolContractError('Tool capabilities differ from the coordinator contract')
+            if name == 'record_ledger':
+                if self.trace.state not in (RunState.INDEXED, RunState.FAILED):
+                    raise ToolContractError('Ledger export is out of order')
+            elif name not in TRANSITIONS or self.trace.state != TRANSITIONS[name][0]:
+                raise ToolContractError('Tool execution is out of order')
+            result = action()
+            check_result(name, result)
+            if name in TRANSITIONS:
+                self.trace.state = TRANSITIONS[name][1]
+            return result
         except Exception as exc:
             # Exception messages may contain an email, document text or a key.
             # Traces retain the error class; callers can inspect errors locally.
             error_type = type(exc).__name__
+            self.trace.state = RunState.FAILED
+            self.trace.failure_type = self.trace.failure_type or error_type
             ledger = getattr(exc, "ledger", None)
             if ledger is not None:
                 self.ledger = ledger
@@ -90,12 +164,14 @@ class AuditAgent:
             raise
         finally:
             self.trace.events.append(ToolEvent(
-                name, self.tools.contracts[name].effects,
+                name if canonical else 'unknown', canonical.effects if canonical else (),
                 "failed" if error_type else "ok",
-                round(time.perf_counter() - started, 6), error_type,
+                round(max(0, self._clock() - started), 6), error_type,
             ))
 
     def _publish(self, candidate: Path, destination: Path) -> None:
+        if self.trace.state is not RunState.VALIDATED or self._validated is None or not self._validated.matches(candidate):
+            raise OutputValidationError('Publication requires the unchanged validated candidate')
         if destination.exists():
             digest = hashlib.sha256(destination.read_bytes()).hexdigest()[:16]
             self.backup_dir.mkdir(parents=True, exist_ok=True)
@@ -107,19 +183,23 @@ class AuditAgent:
 
     def run(self, data_dir: Path, out_path: Path, trace_path: Path | None = None,
             ledger_path: Path | None = None) -> list[PredictionRow]:
+        # A rejected new invocation must not expose a previous run's approval
+        # or successful-publication state, including during path validation.
+        self.trace = RunTrace(mode="live_enabled" if self.llm is not None else "offline")
+        self.ledger = None
+        self._validated = None
         data_dir, out_path = Path(data_dir).resolve(), Path(out_path).resolve()
         trace_path = Path(trace_path).resolve() if trace_path else None
         ledger_path = Path(ledger_path).resolve() if ledger_path else None
         if out_path.is_relative_to(data_dir):
             raise ValueError("Output must be outside the read-only dataset")
+        if self.backup_dir.resolve().is_relative_to(data_dir):
+            raise ValueError("Backup must be outside the read-only dataset")
         if trace_path and (trace_path.is_relative_to(data_dir) or trace_path == out_path):
             raise ValueError("Trace must be outside the dataset and separate from the CSV")
         if ledger_path and (ledger_path.is_relative_to(data_dir) or ledger_path in (out_path, trace_path)):
             raise ValueError("Ledger must be outside the dataset and separate from output and trace")
 
-        # A coordinator can be reused, but each run has its own state and trace.
-        self.trace = RunTrace(mode="live_enabled" if self.llm is not None else "offline")
-        self.ledger = None
         candidate = None
         ledger_attempted = False
         try:
@@ -135,7 +215,13 @@ class AuditAgent:
                                      activities=len(index.activities))
             if getattr(index, "ledger", None) is not None:
                 self.trace.counts.update(index.ledger.summary())
-            cases = self._call("investigate", lambda: self.tools.investigate(data_dir, inputs, index, self.llm))
+            def investigate_cases():
+                result = self.tools.investigate(data_dir, inputs, index, self.llm)
+                check_result('investigate', result)
+                if set(result) != {request['case_id'] for request in inputs.requests}:
+                    raise ToolContractError('Investigation returned incomplete case membership')
+                return result
+            cases = self._call("investigate", investigate_cases)
             resources = [resource for case in cases.values()
                          for resource in ([case.account] if case.account else []) + case.resources]
             self.trace.counts["unknown_resource_states"] = sum(resource.state is None for resource in resources)
@@ -151,24 +237,47 @@ class AuditAgent:
                 writer = csv.writer(stream, lineterminator="\n")
                 writer.writerow(HEADER)
                 writer.writerows(rows)
+                stream.flush()
+                os.fsync(stream.fileno())
 
             def validate_candidate() -> None:
+                before = fingerprint(candidate)
                 errors, count = self.tools.validate(candidate, data_dir)
+                if not isinstance(errors, list) or type(count) is not int:
+                    raise ToolContractError('Validator returned an invalid result shape')
                 if errors or count != len(inputs.targets):
                     raise OutputValidationError(f"Candidate rejected: {len(errors)} validation error(s); {count} rows")
+                if fingerprint(candidate) != before:
+                    raise OutputValidationError('Validator modified the staged candidate')
+                self._validated = ValidatedCandidate(candidate.resolve(), before, count)
                 self.trace.counts["validated_rows"] = count
 
             self._call("validate", validate_candidate)
-            self.trace.output_sha256 = hashlib.sha256(candidate.read_bytes()).hexdigest()
+            self.trace.output_sha256 = self._validated.sha256
+            # Requested diagnostics must be writable before committing the CSV.
+            # A later telemetry failure cannot undo a completed publication.
+            if trace_path:
+                self.trace.write(trace_path)
             self._call("publish", lambda: self._publish(candidate, out_path))
             self.trace.counts.update({f"status_{status}": count for status, count in Counter(row[1] for row in rows).items()})
             return rows
-        except Exception:
+        except Exception as exc:
+            self.trace.state = RunState.FAILED
+            self.trace.failure_type = self.trace.failure_type or type(exc).__name__
             if ledger_path and self.ledger is not None and not ledger_attempted:
-                self._call("record_ledger", lambda: self.ledger.write(ledger_path))
+                try:
+                    self._call("record_ledger", lambda: self.ledger.write(ledger_path))
+                except Exception:
+                    self.trace.diagnostic_errors.append('ledger_write_failed')
             raise
         finally:
             if candidate is not None:
-                candidate.unlink(missing_ok=True)
+                try:
+                    candidate.unlink(missing_ok=True)
+                except OSError:
+                    self.trace.diagnostic_errors.append('candidate_cleanup_failed')
             if trace_path:
-                self.trace.write(trace_path)
+                try:
+                    self.trace.write(trace_path)
+                except Exception:
+                    self.trace.diagnostic_errors.append('trace_write_failed')

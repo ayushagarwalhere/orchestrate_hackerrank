@@ -58,7 +58,7 @@ These controls reduce injection exposure; prompt instructions alone are not a
 proof of resistance to every adversarial message. Tests verify encoding and
 schema enforcement without making that stronger claim.
 
-Provider calls require `--live-llm`. There are at most 32 adapter invocations per
+Provider calls require `--enable-model`. There are at most 32 adapter invocations per
 model wrapper by default; the Gemini adapter has at most three attempts and a
 120-second per-attempt timeout. Cached replay does not consume the live budget.
 Model failures return no fact/classification; missing image extraction blocks
