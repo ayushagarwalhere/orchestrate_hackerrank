@@ -1,0 +1,10 @@
+# Historical staging is not the executable project.
+.implementation/
+__pycache__/
+*.py[cod]
+**/.test-runs/
+**/runs/
+**/model-cache/
+**/.venv/
+**/.env
+**/.test-deps/
