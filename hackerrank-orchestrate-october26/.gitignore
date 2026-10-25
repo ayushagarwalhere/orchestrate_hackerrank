@@ -5,3 +5,7 @@ runs/
 model-cache/
 .env
 .venv/
+submission/
+release-artifacts/
+/code.zip
+/outputs.csv

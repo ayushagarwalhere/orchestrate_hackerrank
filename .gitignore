@@ -8,3 +8,5 @@ __pycache__/
 **/.venv/
 **/.env
 **/.test-deps/
+**/submission/
+**/release-artifacts/

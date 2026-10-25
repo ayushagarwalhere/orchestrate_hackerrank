@@ -417,3 +417,73 @@ branch=codex/reliable-audit
 repo_root=C:\Users\agarw\Desktop\orchestrate
 worktree=main
 parent_agent=none
+
+## [2026-10-25T07:10:29.893397+00:00] Prepare source-first release with local-only submission artifacts
+
+User Prompt (verbatim, secrets redacted):
+okay now at last i want you to send me a code zip file - along with readme - don't add the leaderboard score guess i made and also the log file of this chat (which is already mantained i guess) and the outputs.csv !! 
+
+
+Agent Response Summary:
+Prepared a versioned release README without an unverified score claim and updated the deterministic source packager to include setup instructions while excluding dataset, logs, predictions, environment files and exploration scratch scripts. Added three synthetic packaging regressions and verified they pass. The maintained project log and validated prediction CSV will be delivered separately from the source ZIP, with an identical plural-filename CSV alias. Final artifacts will be generated and checked from the verified pushed source revision, with completion evidence recorded in the local release manifest.
+
+Actions:
+* Added SUBMISSION_README.md and packaging exclusions, updated Git ignore rules, and added three release-boundary tests.
+* Ran the three packaging tests successfully and verified submission paths are ignored by Git.
+* Kept prediction logic and current output.csv unchanged; release creation is deferred until pushed-source verification.
+* Verified the current Codex Desktop runtime/model, appended genuine human messages and reread these entries.
+
+Context:
+tool=Codex Desktop
+model=gpt-6.1-sol
+branch=codex/reliable-audit
+repo_root=C:\Users\agarw\Desktop\orchestrate
+worktree=main
+parent_agent=none
+
+## [2026-10-25T07:10:29.893397+00:00] Prepare source-first release with local-only submission artifacts
+
+User Prompt (verbatim, secrets redacted):
+first push all the changes, and then form the submissions from the pushed code
+
+
+Agent Response Summary:
+Confirmed the requested order: push source changes first, verify the remote main commit, then generate submissions from an immutable archive of that pushed revision. No real release archive has been built before that checkpoint. Packaging fixture ZIPs created by the three unit tests contain only synthetic test files and are not submission artifacts.
+
+Actions:
+* Added SUBMISSION_README.md and packaging exclusions, updated Git ignore rules, and added three release-boundary tests.
+* Ran the three packaging tests successfully and verified submission paths are ignored by Git.
+* Kept prediction logic and current output.csv unchanged; release creation is deferred until pushed-source verification.
+* Verified the current Codex Desktop runtime/model, appended genuine human messages and reread these entries.
+
+Context:
+tool=Codex Desktop
+model=gpt-6.1-sol
+branch=codex/reliable-audit
+repo_root=C:\Users\agarw\Desktop\orchestrate
+worktree=main
+parent_agent=none
+
+## [2026-10-25T07:10:29.893397+00:00] Prepare source-first release with local-only submission artifacts
+
+User Prompt (verbatim, secrets redacted):
+and do not push the submissions on the github !!
+
+
+
+Agent Response Summary:
+Added project and parent Git ignore rules for local submission folders and generated ZIP/CSV aliases. Verified that submission/code.zip, submission/log.txt, outputs.csv and code.zip are ignored. The final delivery artifacts will remain local and will not be added, committed or pushed to GitHub.
+
+Actions:
+* Added SUBMISSION_README.md and packaging exclusions, updated Git ignore rules, and added three release-boundary tests.
+* Ran the three packaging tests successfully and verified submission paths are ignored by Git.
+* Kept prediction logic and current output.csv unchanged; release creation is deferred until pushed-source verification.
+* Verified the current Codex Desktop runtime/model, appended genuine human messages and reread these entries.
+
+Context:
+tool=Codex Desktop
+model=gpt-6.1-sol
+branch=codex/reliable-audit
+repo_root=C:\Users\agarw\Desktop\orchestrate
+worktree=main
+parent_agent=none
